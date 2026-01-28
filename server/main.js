@@ -1,24 +1,25 @@
 import express from "express";
-import mongoose from "mongoose";
-import droneRoutes from "./routes/drone.routes.js";
-import packageRoutes from "./routes/package.routes.js";
-import userRoutes from "./routes/user.routes.js";
+import { connectDB } from "./config/db.js"
+import droneRoutes from "./routers/Drone.js"
+import baseStationRoutes from "./routers/BaseStation.js"
+import dotenv from "dotenv";
+const port = process.env.PORT;
 
+dotenv.config();
 const app = express();
 
 app.use(express.json());
 
-// routes
-app.use("/api/drones", droneRoutes);
-app.use("/api/packages", packageRoutes);
-app.use("/api/users", userRoutes);
+await connectDB(); 
 
-// error handling
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
+app.use("/api/base-stations", baseStationRoutes);
+app.use("/api/drones", droneRoutes);
+
+
+app.get("/", (req, res) => {
+  res.send("Server is running ");
 });
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    app.listen(3000, () => console.log("Server running 🚀"));
-  });
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
