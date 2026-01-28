@@ -1,0 +1,17 @@
+[
+  {
+    "serialNumber": "DRN-1001",
+    "status": "IDLE",
+    "batteryLevel": 85
+  },
+  {
+    "serialNumber": "DRN-1002",
+    "status": "CHARGING",
+    "batteryLevel": 40
+  },
+  {
+    "serialNumber": "DRN-1003",
+    "status": "MAINTENANCE",
+    "batteryLevel": 0
+  }
+]

@@ -1,12 +1,22 @@
 import { Drone } from "../models/Drone.model.js";
 
-export const getAvailableDrones = async () => {
-  return Drone.find({
-    status: "IDLE",
-    batteryLevel: { $gt: 30 }
-  });
+export const createDrone = (data) => {
+  const drone = new Drone(data);
+  return drone.save();
 };
 
-export const updateDroneStatus = async (droneId, status) => {
-  return Drone.findByIdAndUpdate(droneId, { status }, { new: true });
+export const getAllDrones = () => {
+  return Drone.find().populate("baseStationId");
+};
+
+export const getDroneById = (id) => {
+  return Drone.findById(id).populate("baseStationId");
+};
+
+export const updateDrone = (id, data) => {
+  return Drone.findByIdAndUpdate(id, data, { new: true });
+};
+
+export const deleteDrone = (id) => {
+  return Drone.findByIdAndDelete(id);
 };
