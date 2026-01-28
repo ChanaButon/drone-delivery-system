@@ -1,0 +1,28 @@
+import { User } from "../models/User.js";
+import bcrypt from "bcryptjs";
+
+export const createUser = async (userData) => {
+  const hashedPassword = bcrypt.hashSync(userData.password, 10);
+  const user = new User({ ...userData, password: hashedPassword });
+  return await user.save();
+};
+
+export const authenticateUser = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) return null;
+
+  const isMatch = bcrypt.compareSync(password, user.password);
+  return isMatch ? user : null;
+};
+
+export const getUserById = async (id) => {
+  return await User.findById(id).select("-password");
+};
+
+export const updateUser = async (id, data) => {
+  return await User.findByIdAndUpdate(id, data, { new: true }).select("-password");
+};
+
+export const deleteUser = async (id) => {
+  return await User.findByIdAndDelete(id);
+};
