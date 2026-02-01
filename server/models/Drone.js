@@ -4,8 +4,8 @@ const droneSchema = new mongoose.Schema({
   droneCode: String,
   status: {
     type: String,
-    enum: ["IDLE", "DELIVERING", "CHARGING", "MAINTENANCE"],
-    default: "IDLE"
+    enum: ["available", "delivering", "charging", "InMaintenance"],
+    default: "available"
   },
   batteryLevel: Number,
   baseStationId: {

@@ -1,18 +1,26 @@
 import mongoose from "mongoose";
 
-const baseStationSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
+const baseStationSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    location: {
+      lat: { type: Number, required: true },
+      lng: { type: Number, required: true }
+    },
+    capacity: {
+      type: Number,
+      required: true,
+      min: 1
+    }
   },
-  location: {
-    lat: Number,
-    lng: Number
-  },
-  capacity: {
-    type: Number,
-    required: true
-  }
-}, { timestamps: true });
+  { timestamps: true }
+);
 
-export const BaseStation = mongoose.model("BaseStation", baseStationSchema);
+export const BaseStation = mongoose.model(
+  "BaseStation",
+  baseStationSchema
+);

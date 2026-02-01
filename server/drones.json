@@ -1,17 +1,20 @@
 [
   {
-    "serialNumber": "DRN-1001",
+    "droneCode": "DR-001",
     "status": "IDLE",
-    "batteryLevel": 85
+    "batteryLevel": 85,
+    "lastMaintenance": "2025-01-01"
   },
   {
-    "serialNumber": "DRN-1002",
+    "droneCode": "DR-002",
     "status": "CHARGING",
-    "batteryLevel": 40
+    "batteryLevel": 40,
+    "lastMaintenance": "2024-12-20"
   },
   {
-    "serialNumber": "DRN-1003",
+    "droneCode": "DR-003",
     "status": "MAINTENANCE",
-    "batteryLevel": 0
+    "batteryLevel": 20,
+    "lastMaintenance": "2024-11-10"
   }
 ]
