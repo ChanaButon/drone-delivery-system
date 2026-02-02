@@ -1,29 +1,30 @@
 import { Order } from "../models/Order.js";
-import { Package } from "../models/Package.js";
 import { Drone } from "../models/Drone.js";
-import { Station } from "../models/BaseStation.js";
+import { BaseStation } from "../models/BaseStation.js";
 
-export const createOrder = async ({ userId, packageData }) => {
-  // 1. יצירת חבילה
-  const newPackage = await Package.create(packageData);
-
-  // 2. יצירת הזמנה
+/**
+ * יצירת הזמנה מינימלית
+ * כרגע: רק userId
+ */
+export const createOrder = async ({ userId }) => {
   const order = await Order.create({
     userId,
-    packageId: newPackage._id,
     status: "created"
   });
 
   return order;
 };
 
+/**
+ * שיבוץ רחפן להזמנה (אופציונלי – אם יש לך כבר רחפנים ותחנות)
+ */
 export const assignDroneToOrder = async (orderId) => {
   const order = await Order.findById(orderId);
+  if (!order) throw new Error("Order not found");
 
-  // 3. מציאת תחנה קרובה (בינתיים: ראשונה)
-  const station = await Station.findOne();
+  const station = await BaseStation.findOne();
+  if (!station) throw new Error("No station found");
 
-  // 4. מציאת רחפן פנוי
   const drone = await Drone.findOne({
     stationId: station._id,
     status: "available"
@@ -31,7 +32,6 @@ export const assignDroneToOrder = async (orderId) => {
 
   if (!drone) throw new Error("No available drone");
 
-  // 5. עדכונים
   drone.status = "on_mission";
   await drone.save();
 
@@ -43,20 +43,31 @@ export const assignDroneToOrder = async (orderId) => {
   return order;
 };
 
+/**
+ * סיום הזמנה
+ */
 export const completeOrder = async (orderId) => {
   const order = await Order.findById(orderId);
+  if (!order) throw new Error("Order not found");
+
   order.status = "completed";
   order.completedAt = new Date();
   await order.save();
 
-  // החזרת הרחפן
-  const drone = await Drone.findById(order.droneId);
-  drone.status = "available";
-  await drone.save();
+  if (order.droneId) {
+    const drone = await Drone.findById(order.droneId);
+    if (drone) {
+      drone.status = "available";
+      await drone.save();
+    }
+  }
 
   return order;
 };
 
+/**
+ * ביטול הזמנה
+ */
 export const cancelOrder = async (orderId) => {
   return await Order.findByIdAndUpdate(
     orderId,
@@ -65,9 +76,11 @@ export const cancelOrder = async (orderId) => {
   );
 };
 
+/**
+ * שליפת כל ההזמנות של משתמש
+ */
 export const getOrdersByUser = async (userId) => {
   return await Order.find({ userId })
-    .populate("packageId")
     .populate("droneId")
     .populate("stationId");
 };

@@ -1,4 +1,4 @@
-import * as baseStationService from "../services/baseStation.service.js";
+import * as baseStationService from "../services/BaseStation.js";
 
 export const createStation = async (req, res, next) => {
   try {

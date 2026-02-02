@@ -5,7 +5,7 @@ import {
   getDroneById,
   updateDrone,
   deleteDrone
-} from "../controllers/drone.controller.js";
+} from "../controllers/Drone.js";
 
 const router = express.Router();
 

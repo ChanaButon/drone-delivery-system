@@ -1,4 +1,4 @@
-import { Drone } from "../models/Drone.model.js";
+import { Drone } from "../models/Drone.js";
 
 export const createDrone = (data) => {
   const drone = new Drone(data);

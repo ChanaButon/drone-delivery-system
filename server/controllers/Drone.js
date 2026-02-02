@@ -1,4 +1,4 @@
-import * as droneService from "../services/drone.service.js";
+import * as droneService from "../services/Drone.js";
 
 export const createDrone = async (req, res, next) => {
   try {

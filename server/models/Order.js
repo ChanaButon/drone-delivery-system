@@ -8,15 +8,9 @@ const orderSchema = new mongoose.Schema(
       required: true
     },
 
-    packageId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Package",
-      required: true
-    },
-
     stationId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Station"
+      ref: "BaseStation"
     },
 
     droneId: {
@@ -30,7 +24,9 @@ const orderSchema = new mongoose.Schema(
       default: "created"
     },
 
-    completedAt: Date
+    completedAt: {
+      type: Date
+    }
   },
   { timestamps: true }
 );

@@ -1,4 +1,4 @@
-import { BaseStation } from "../models/BaseStation.model.js";
+import  {BaseStation}  from "../models/BaseStation.js";
 
 export const createBaseStation = (data) => {
   const station = new BaseStation(data);
