@@ -92,3 +92,58 @@ export const hasFreeCapacity = async (stationId) => {
 
   return dronesCount < station.capacity;
 };
+
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const toRad = (value) => (value * Math.PI) / 180;
+  const R = 6371; // רדיוס כדור הארץ בק"מ
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+export const findNearestBaseStation = async (location) => {
+  const stations = await BaseStation.find();
+  if (!stations.length) {
+    throw new Error("No base stations available");
+  }
+
+  let nearest = null;
+  let minDistance = Infinity;
+
+  for (const station of stations) {
+    const distance = calculateDistance(
+      location.lat,
+      location.lng,
+      station.location.lat,
+      station.location.lng
+    );
+
+    const dronesCount = await Drone.countDocuments({
+      stationId: station._id
+    });
+
+    if (
+      distance < minDistance &&
+      dronesCount < station.capacity
+    ) {
+      minDistance = distance;
+      nearest = station;
+    }
+  }
+
+  if (!nearest) {
+    throw new Error("No station with free capacity");
+  }
+
+  return nearest;
+};
