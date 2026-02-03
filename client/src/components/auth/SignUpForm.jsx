@@ -5,6 +5,7 @@ import './SignUpForm.css';
 const SignUpForm = ({ onSwitchToLogin }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignUp = (e) => {
@@ -28,12 +29,18 @@ const SignUpForm = ({ onSwitchToLogin }) => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          type="phone"
+          placeholder="phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Sign Up</button>
+        <button className='button-submit' type="submit">Sign Up</button>
         <div className="switch-link">
           <span>Already have an account?</span>
           <button type="button" onClick={onSwitchToLogin}>Login</button>

@@ -1,9 +1,17 @@
 import React from 'react';
-import AuthPage from './components/auth/AuthPage';
+import Navbar from "./components/Navbar/Navbar";
+import Hero from "./components/Hero/Hero";
+import Features from "./components/Features/Features";
 import './index.css';
 
 function App() {
-  return <AuthPage />;
+    return (
+    <div className="min-h-screen font-sans text-left" dir="ltr">
+      <Navbar />
+      <Hero />
+      <Features />
+    </div>
+  );
 }
 
 export default App;

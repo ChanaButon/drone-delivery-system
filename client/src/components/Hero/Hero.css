@@ -1,0 +1,107 @@
+.hero {
+  padding: 5rem 1.5rem 8rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.hero-left h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.hero-left h1 span {
+  color: #3b82f6;
+}
+
+.hero-left p {
+  font-size: 1.125rem;
+  color: #64748b;
+  margin-bottom: 2rem;
+  max-width: 28rem;
+}
+
+.how-it-works-btn {
+  background: white;
+  border: 2px solid #e2e8f0;
+  color: #475569;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border-radius: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.how-it-works-btn:hover {
+  background: #f8fafc;
+}
+
+.hero-right {
+  position: relative;
+}
+
+.hero-drone-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 2rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  transform: rotate(3deg);
+  transition: transform 0.5s;
+}
+
+.hero-drone-card:hover {
+  transform: rotate(0deg);
+}
+
+.drone-box {
+  background: #f1f5f9;
+  height: 20rem;
+  border-radius: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.drone-icon {
+  color: #3b82f6;
+  animation: pulse 2s infinite;
+}
+
+.drone-info {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drone-info p:first-child {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.drone-info p:last-child {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+.status-badge {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}

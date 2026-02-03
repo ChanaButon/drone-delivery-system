@@ -9,6 +9,7 @@
   border-radius: 1rem;
   border: 1px solid #ccc;
   font-size: 1rem;
+  width: 400px;
 }
 
 .login-form input:focus {
@@ -16,19 +17,19 @@
   outline: none;
 }
 
-.login-form button {
+.button-submit {
   padding: 0.8rem 1rem;
   border-radius: 1rem;
   border: none;
-  background: #3b82f6;
+  background:hwb(47 3% 27%);
   color: white;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.login-form button:hover {
-  background: #2563eb;
+.button-submit:hover {
+  background: hwb(47 2% 49%);
 }
 
 .switch-link {

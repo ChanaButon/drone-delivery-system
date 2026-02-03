@@ -12,8 +12,9 @@ const LoginForm = ({ onSwitchToSignUp }) => {
   };
 
   return (
-    <AuthCard title="Login to Your Account">
+    <AuthCard title="welcome back!">
       <form className="login-form" onSubmit={handleLogin}>
+
         <input
           type="email"
           placeholder="Email or Phone"
@@ -26,7 +27,7 @@ const LoginForm = ({ onSwitchToSignUp }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+        <button className='button-submit' type="submit">Login</button>
         <div className="switch-link">
           <span>Don't have an account?</span>
           <button type="button" onClick={onSwitchToSignUp}>Sign Up</button>
