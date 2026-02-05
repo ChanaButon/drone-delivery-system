@@ -1,0 +1,16 @@
+.admin-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.admin-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-card th,
+.admin-card td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}

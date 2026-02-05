@@ -1,0 +1,12 @@
+.admin-header {
+  margin-bottom: 32px;
+}
+
+.admin-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.admin-header p {
+  color: #64748b;
+}

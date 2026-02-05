@@ -1,0 +1,31 @@
+.admin-sidebar {
+  width: 260px;
+  background: #0f172a;
+  color: white;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-logo {
+  display: flex;
+  gap: 10px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.admin-sidebar button {
+  background: none;
+  border: none;
+  color: #cbd5f5;
+  padding: 12px;
+  text-align: left;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.admin-sidebar button.active,
+.admin-sidebar button:hover {
+  background: #2563eb;
+  color: white;
+}

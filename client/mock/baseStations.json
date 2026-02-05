@@ -1,0 +1,12 @@
+[
+  { "id": "B001", "name": "Tel Aviv Central", "location": "Tel Aviv", "capacity": 20 },
+  { "id": "B002", "name": "Haifa Port", "location": "Haifa", "capacity": 15 },
+  { "id": "B003", "name": "Jerusalem Hub", "location": "Jerusalem", "capacity": 12 },
+  { "id": "B004", "name": "Beer Sheva Station", "location": "Beer Sheva", "capacity": 10 },
+  { "id": "B005", "name": "Herzliya North", "location": "Herzliya", "capacity": 8 },
+  { "id": "B006", "name": "Ramat Gan East", "location": "Ramat Gan", "capacity": 14 },
+  { "id": "B007", "name": "Holon South", "location": "Holon", "capacity": 9 },
+  { "id": "B008", "name": "Bat Yam Coast", "location": "Bat Yam", "capacity": 7 },
+  { "id": "B009", "name": "Petah Tikva Center", "location": "Petah Tikva", "capacity": 11 },
+  { "id": "B010", "name": "Rehovot Science Park", "location": "Rehovot", "capacity": 13 }
+]

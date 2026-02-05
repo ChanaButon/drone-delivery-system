@@ -12,10 +12,12 @@ const Navbar = () => {
         <div className="navbar-logo">
           <img
             src={droneImg}
+            onClick={() => navigate("/")}
             alt="Drone delivery"
             className="nav-image"
                />
-          <span className="logo-text">Dronix</span>
+           <span className="logo-black">Dro</span>
+           <span className="logo-blue">nix</span>
         </div>
         <div className="navbar-links">
           <a href="#">Nice to meet you</a>
