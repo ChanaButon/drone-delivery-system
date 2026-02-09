@@ -78,5 +78,13 @@
     "phone": "052-9991112",
     "address": "Begin 100, Tel Aviv",
     "role": "customer"
+  },
+  {
+    "id": "C011",
+    "name": "Itay Peled",
+    "email": "itay@mail.com",
+    "phone": "052-9991112",
+    "address": "Begin 100, Tel Aviv",
+    "role": "admit"
   }
 ]

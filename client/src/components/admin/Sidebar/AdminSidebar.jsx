@@ -1,4 +1,4 @@
-import { Database, Users, Package, Navigation } from "lucide-react";
+import { Database, Users, Package, Drone, Navigation } from "lucide-react";
 import "./AdminSidebar.css";
 
 const AdminSidebar = ({ activeTab, setActiveTab }) => {
@@ -9,17 +9,36 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
         <span>Admin Panel</span>
       </div>
 
-      <nav>
-        <button onClick={() => setActiveTab("drones")} className={activeTab === "drones" ? "active" : ""}>
-          Fleet Management
+      <nav className="admin-nav">
+       <button
+          onClick={() => setActiveTab("drones")}
+          className={activeTab === "drones" ? "active" : ""}
+        >
+          <Drone size={18} /> {/* אייקון רחפן */}
+          Drones Management
         </button>
-        <button onClick={() => setActiveTab("stations")} className={activeTab === "stations" ? "active" : ""}>
+
+        <button
+          onClick={() => setActiveTab("stations")}
+          className={activeTab === "stations" ? "active" : ""}
+        >
+          <Database size={18} />
           Drone Stations
         </button>
-        <button onClick={() => setActiveTab("packages")} className={activeTab === "packages" ? "active" : ""}>
+
+        <button
+          onClick={() => setActiveTab("packages")}
+          className={activeTab === "packages" ? "active" : ""}
+        >
+          <Package size={18} />
           Packages
         </button>
-        <button onClick={() => setActiveTab("users")} className={activeTab === "users" ? "active" : ""}>
+
+        <button
+          onClick={() => setActiveTab("users")}
+          className={activeTab === "users" ? "active" : ""}
+        >
+          <Users size={18} />
           Users
         </button>
       </nav>

@@ -1,0 +1,141 @@
+/* CARD */
+.admin-card {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* TABLE */
+.station-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.station-table th {
+  text-align: left;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  padding-bottom: 14px;
+}
+
+.station-table td {
+  padding: 16px 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.station-table tr:hover {
+  background: #f8fafc;
+}
+
+/* ID */
+.station-id {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* MAP BUTTON */
+.map-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  border: none;
+  background: #eff6ff;
+  color: #2563eb;
+
+  padding: 8px 14px;
+  border-radius: 12px;
+
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.map-btn:hover {
+  background: #dbeafe;
+}
+
+/* AVAILABLE BADGE */
+.available-badge {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* ACTIONS */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  background: #eff6ff;
+  color: #2563eb;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #fef2f2;
+  color: #dc2626;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ADD BUTTON */
+.add-station-btn {
+  margin-top: 20px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.add-station-btn:hover {
+  background: #15803d;
+}
+
+/* MAP OVERLAY */
+.map-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15,23,42,0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* MAP BOX */
+.map-container {
+  width: 80%;
+  height: 70%;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}

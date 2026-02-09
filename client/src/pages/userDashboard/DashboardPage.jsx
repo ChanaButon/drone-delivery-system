@@ -1,10 +1,9 @@
 import { useState } from "react";
-import Sidebar from "./Sidebar.jsx";
-import DashboardHeader from "./DashboardHeader.jsx";
-import Overview from "../../components/OverviewCards/OverviewCards.jsx";
-import MyDeliveries from "../../components/PackageList/PackageList.jsx";
-import Profile from "../../components/ProfileCard/ProfileCard.jsx";
-import NewDelivery from "../../components/NewDelivery/NewDelivery.jsx";
+import Sidebar from "../../components/user/Sidabar/UserSidebar.jsx"
+import DashboardHeader from "../../components/user/HeaderUser/DashboardHeader.jsx";
+import MyDeliveries from "../../components/user/PackageList/PackageList.jsx";
+import Profile from "../../components/user/ProfileCard/ProfileCard.jsx";
+import NewDelivery from "../../components/user/NewDelivery/NewDelivery.jsx";
 
 import "./Dashboard.css";
 
