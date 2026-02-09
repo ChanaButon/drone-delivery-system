@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import AuthCard from './AuthCard';
 import './SignUpForm.css';
 
@@ -7,10 +8,13 @@ const SignUpForm = ({ onSwitchToLogin }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+   const navigate = useNavigate();
 
   const handleSignUp = (e) => {
     e.preventDefault();
     console.log('SignUp:', fullName, email, password);
+
+    navigate("/adminDashboard");
   };
 
   return (

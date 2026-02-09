@@ -7,7 +7,7 @@ import './index.css';
 function App() {
     return (
     <div className="min-h-screen font-sans text-left" dir="ltr">
-      <Navbar />
+
       <Hero />
       <Features />
     </div>

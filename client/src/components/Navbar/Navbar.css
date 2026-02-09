@@ -25,6 +25,7 @@
 }
 
 .nav-image{
+  cursor: pointer;
   width: 100px;
   height: 100px;
   margin-top: 0;
@@ -32,7 +33,12 @@
   filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
 }
 
-.logo-text {
+.logo-blue {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a6aeb;
+}
+.logo-black {
   font-size: 2rem;
   font-weight: bold;
   color: #1e293b;

@@ -1,15 +1,34 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
+import Layout from "./Layout";
+import App from "./App";
 import AuthPage from "./components/auth/AuthPage";
+import DashboardPage from "./pages/userDashboard/DashboardPage";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard"
 
 const router = createBrowserRouter([
   {
-    path: "/*",
-    element: <App />,
-  },
-    {
-    path: "/auth",
-    element: <AuthPage />
+    path: "/",
+    element: <Layout />, 
+    children: [
+      {
+        index: true,
+        element: <App />,   
+      },
+      {
+        path: "auth",
+        element: <AuthPage />,
+      },
+      {
+        path: "dashboardUser",
+        element: <DashboardPage />,
+      },
+      {
+        path: "adminDashboard",
+        element: <AdminDashboard />,
+      },
+      
+
+    ],
   },
 ]);
 
