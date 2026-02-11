@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Background gradient animation */
+body {
+  @apply bg-gradient-to-br from-blue-600 to-indigo-700;
+}
+
+/* Card fade-in animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Button hover shadow */
+.button-hover:hover {
+  @apply shadow-lg;
+}

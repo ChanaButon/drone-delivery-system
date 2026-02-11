@@ -1,0 +1,170 @@
+.admin-card {
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+
+  border-radius: 20px;
+  padding: 24px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+
+.drone-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.drone-table th {
+  text-align: left;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  padding-bottom: 14px;
+}
+
+.drone-table td {
+  padding: 16px 8px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.drone-table tr:hover {
+  background: #f8fafc;
+}
+
+
+.drone-id {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-available {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-charging {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-busy {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+
+.battery {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.battery-low {
+  color: #dc2626;
+}
+
+.battery-medium {
+  color: #ea580c;
+}
+
+.battery-high {
+  color: #16a34a;
+}
+
+
+.charging-icon {
+  color: #facc15;
+  animation: chargingBlink 1s infinite;
+  filter: drop-shadow(0 0 6px rgba(250,204,21,0.7));
+}
+
+
+@keyframes chargingBlink {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+}
+
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+
+.edit-btn {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.edit-btn:hover {
+  background: #dbeafe;
+}
+
+.delete-btn {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+}
+
+.add-drone-btn {
+  margin-top: 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  background: #16a34a;
+  color: white;
+
+  border: none;
+  padding: 12px 18px;
+  border-radius: 14px;
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-drone-btn:hover {
+  background: #15803d;
+}

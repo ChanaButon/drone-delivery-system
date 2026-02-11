@@ -1,0 +1,84 @@
+.sidebar {
+  width: 240px;
+
+  
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+
+  border-right: 1px solid #e2e8f0;
+
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+.sidebar-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: none;
+  border: none;
+
+  color: #475569;
+  font-weight: 500;
+  font-size: 14px;
+
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+.sidebar-nav button:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+
+.sidebar-nav .active {
+  background: hwb(47 3% 27%);
+  color: white;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+
+.logout-btn {
+  margin-top: auto;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: none;
+  border: none;
+
+  color: #64748b;
+  font-weight: 500;
+
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #fff1f2;
+  color: #ef4444;
+}

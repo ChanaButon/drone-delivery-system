@@ -1,0 +1,48 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-form input {
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 400px;
+}
+
+.login-form input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.button-submit {
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
+  border: none;
+  background:hwb(47 3% 27%);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.button-submit:hover {
+  background: hwb(47 2% 49%);
+}
+
+.switch-link {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.switch-link button {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  text-decoration: underline;
+}

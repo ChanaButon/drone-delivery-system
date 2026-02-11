@@ -1,0 +1,12 @@
+[
+  { "id": "P001", "weight": 2.3, "senderId": "C001", "receiverId": "C002", "status": "delivered" },
+  { "id": "P002", "weight": 1.1, "senderId": "C003", "receiverId": "C004", "status": "in-transit" },
+  { "id": "P003", "weight": 4.5, "senderId": "C002", "receiverId": "C001", "status": "pending" },
+  { "id": "P004", "weight": 0.8, "senderId": "C005", "receiverId": "C006", "status": "delivered" },
+  { "id": "P005", "weight": 3.0, "senderId": "C007", "receiverId": "C008", "status": "in-transit" },
+  { "id": "P006", "weight": 5.2, "senderId": "C009", "receiverId": "C010", "status": "pending" },
+  { "id": "P007", "weight": 1.9, "senderId": "C001", "receiverId": "C005", "status": "delivered" },
+  { "id": "P008", "weight": 2.0, "senderId": "C004", "receiverId": "C003", "status": "in-transit" },
+  { "id": "P009", "weight": 6.5, "senderId": "C006", "receiverId": "C002", "status": "pending" },
+  { "id": "P010", "weight": 0.5, "senderId": "C008", "receiverId": "C009", "status": "delivered" }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Tel Aviv Central",
+    "location": { "lat": 32.0853, "lng": 34.7818 },
+    "capacity": 20
+  },
+  {
+    "name": "Haifa Port",
+    "location": { "lat": 32.7940, "lng": 34.9896 },
+    "capacity": 15
+  },
+  {
+    "name": "Jerusalem Hub",
+    "location": { "lat": 31.7683, "lng": 35.2137 },
+    "capacity": 12
+  },
+  {
+    "name": "Beer Sheva Station",
+    "location": { "lat": 31.2520, "lng": 34.7915 },
+    "capacity": 10
+  },
+  {
+    "name": "Herzliya North",
+    "location": { "lat": 32.1663, "lng": 34.8430 },
+    "capacity": 8
+  },
+  {
+    "name": "Ramat Gan East",
+    "location": { "lat": 32.0684, "lng": 34.8248 },
+    "capacity": 14
+  },
+  {
+    "name": "Holon South",
+    "location": { "lat": 32.0158, "lng": 34.7874 },
+    "capacity": 9
+  },
+  {
+    "name": "Bat Yam Coast",
+    "location": { "lat": 32.0167, "lng": 34.7503 },
+    "capacity": 7
+  },
+  {
+    "name": "Petah Tikva Center",
+    "location": { "lat": 32.0840, "lng": 34.8878 },
+    "capacity": 11
+  },
+  {
+    "name": "Rehovot Science Park",
+    "location": { "lat": 31.8948, "lng": 34.8113 },
+    "capacity": 13
+  }
+]
