@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import { Drone } from "../models/Drone.js";
-=======
 import mongoose from "mongoose";
-import { Drone } from "../models/Drone.js";
-import { BaseStation } from "../models/BaseStation.js";
->>>>>>> c7aabc8c7ce8036d099ce080d6a994de10b7bf5c
+
 
 
 const validateId = (id) => mongoose.Types.ObjectId.isValid(id);

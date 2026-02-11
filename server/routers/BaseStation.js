@@ -4,13 +4,9 @@ import {
   getStations,
   getStationById,
   updateStation,
-<<<<<<< HEAD
-  deleteStation
-=======
   deleteStation,
   countDrones,
   checkCapacity
->>>>>>> c7aabc8c7ce8036d099ce080d6a994de10b7bf5c
 } from "../controllers/BaseStation.js";
 
 const router = express.Router();

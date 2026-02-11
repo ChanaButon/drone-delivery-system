@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 import  {BaseStation}  from "../models/BaseStation.js";
-=======
 import mongoose from "mongoose";
-import { BaseStation } from "../models/BaseStation.js";
+
 import { Drone } from "../models/Drone.js";
->>>>>>> c7aabc8c7ce8036d099ce080d6a994de10b7bf5c
 
 
 const validateId = (id) => {

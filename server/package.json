@@ -4,14 +4,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
     "dev": "node main.js"
-=======
-    "start": "nodemon main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> c7aabc8c7ce8036d099ce080d6a994de10b7bf5c
   },
   "keywords": [],
   "author": "",
