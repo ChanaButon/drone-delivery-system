@@ -3,11 +3,14 @@ import {
   register,
   login,
   getProfile,
-  updateProfile
-} from "../controllers/user.controller.js";
+  updateProfile,
+  getAll,
+  removeUser
+} from "../controllers/User.js";
 
 const router = express.Router();
-
+router.get("/", getAll);      
+router.delete("/:id", removeUser);
 router.post("/register", register);
 router.post("/login", login);
 router.get("/:id", getProfile);

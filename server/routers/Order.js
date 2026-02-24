@@ -5,7 +5,7 @@ import {
   completeOrder,
   cancelOrder,
   getOrdersByUser
-} from "../controllers/order.controller.js";
+} from "../controllers/Order.js";
 
 const router = express.Router();
 

@@ -1,13 +1,13 @@
 import { Order } from "../models/Order.js";
 import { Package } from "../models/Package.js";
 import { Drone } from "../models/Drone.js";
-import { Station } from "../models/BaseStation.js";
+import { BaseStation } from "../models/BaseStation.js";
 
 export const createOrder = async ({ userId, packageData }) => {
-  // 1. יצירת חבילה
+
   const newPackage = await Package.create(packageData);
 
-  // 2. יצירת הזמנה
+
   const order = await Order.create({
     userId,
     packageId: newPackage._id,
@@ -21,9 +21,9 @@ export const assignDroneToOrder = async (orderId) => {
   const order = await Order.findById(orderId);
 
   // 3. מציאת תחנה קרובה (בינתיים: ראשונה)
-  const station = await Station.findOne();
+  const station = await BaseStation.findOne();
 
-  // 4. מציאת רחפן פנוי
+
   const drone = await Drone.findOne({
     stationId: station._id,
     status: "available"
