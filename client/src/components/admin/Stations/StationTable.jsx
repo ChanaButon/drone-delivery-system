@@ -33,7 +33,7 @@ const StationTable = () => {
       <table className="station-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Name Station</th>
             <th>Location</th>
             <th>Capacity</th>
             <th>Available Drones</th>
@@ -44,7 +44,7 @@ const StationTable = () => {
         <tbody>
           {stations.map((station) => (
             <tr key={station._id}>
-              <td className="station-id">{station._id}</td>
+              <td className="station-id">{station.name}</td>
 
               <td>
                 <button

@@ -1,13 +1,10 @@
 .admin-card {
   background: rgba(255,255,255,0.9);
   backdrop-filter: blur(8px);
-
   border-radius: 20px;
   padding: 24px;
-
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
-
 
 .card-header {
   display: flex;
@@ -15,7 +12,6 @@
   align-items: center;
   margin-bottom: 16px;
 }
-
 
 .drone-table {
   width: 100%;
@@ -40,13 +36,6 @@
   background: #f8fafc;
 }
 
-
-.drone-id {
-  font-weight: 600;
-  color: #1e293b;
-}
-
-
 .status-badge {
   padding: 6px 12px;
   border-radius: 999px;
@@ -54,149 +43,67 @@
   font-weight: 600;
 }
 
-.status-available {
-  background: #dcfce7;
-  color: #15803d;
-}
+.status-available { background: #dcfce7; color: #15803d; }
+.status-charging { background: #dbeafe; color: #1d4ed8; }
+.status-maintenance { background: #fef3c7; color: #92400e; }
 
-.status-charging {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-
-.status-busy {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-
-.battery {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+.battery-badge {
   font-weight: 600;
 }
+.battery-low { color: #dc2626; }
+.battery-medium { color: #ea580c; }
+.battery-high { color: #16a34a; }
 
-.battery-low {
-  color: #dc2626;
-}
-
-.battery-medium {
-  color: #ea580c;
-}
-
-.battery-high {
-  color: #16a34a;
-}
-
-
-.charging-icon {
-  color: #facc15;
-  animation: chargingBlink 1s infinite;
-  filter: drop-shadow(0 0 6px rgba(250,204,21,0.7));
-}
-
-
-@keyframes chargingBlink {
-  0% {
-    opacity: 0.2;
-    transform: scale(0.9);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 0.2;
-    transform: scale(0.9);
-  }
-}
-
-
-.actions {
-  display: flex;
-  gap: 8px;
-}
+.actions { display: flex; gap: 8px; }
 
 .edit-btn,
-.delete-btn {
-  border: none;
-  padding: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
+.delete-btn,
+.add-drone-btn { border: none; padding: 8px; border-radius: 10px; cursor: pointer; }
 
+.edit-btn { background: #eff6ff; color: #2563eb; }
+.edit-btn:hover { background: #dbeafe; }
 
-.edit-btn {
-  background: #eff6ff;
-  color: #2563eb;
-}
-
-.edit-btn:hover {
-  background: #dbeafe;
-}
-
-.delete-btn {
-  background: #fef2f2;
-  color: #dc2626;
-}
-
-.delete-btn:hover {
-  background: #fee2e2;
-}
+.delete-btn { background: #fef2f2; color: #dc2626; }
+.delete-btn:hover { background: #fee2e2; }
 
 .add-drone-btn {
   margin-top: 20px;
-
   display: flex;
   align-items: center;
   gap: 8px;
-
   background: #16a34a;
   color: white;
-
-  border: none;
   padding: 12px 18px;
   border-radius: 14px;
-
   font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
 }
-
-.add-drone-btn:hover {
-  background: #15803d;
-}
+.add-drone-btn:hover { background: #15803d; }
 
 
-/* Modal overlay */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex; justify-content: center; align-items: center;
   z-index: 100;
 }
 
-/* Modal box */
 .modal-content {
   background: white;
-  padding: 24px;
+  padding: 32px;
   border-radius: 16px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  min-width: 400px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.modal-content.large {
+  min-width: 500px;
+  max-width: 600px;
 }
 
 .modal-content h3 {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  font-size: 20px;
 }
 
 .modal-content label {
@@ -206,22 +113,24 @@
   font-size: 14px;
 }
 
-.modal-content input {
-  margin-top: 4px;
-  padding: 6px 8px;
-  border-radius: 6px;
+.modal-content input,
+.modal-content select {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .modal-actions button {
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   font-weight: 600;
@@ -237,57 +146,34 @@
   color: #1e293b;
 }
 
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
+/* סטטוס כפתורים */
+.status-buttons {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.popup-content {
-  background: white;
-  padding: 24px;
-  border-radius: 16px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
   gap: 12px;
+  margin-top: 6px;
 }
 
-.popup-content input {
-  padding: 10px;
-  border-radius: 8px;
+.status-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 12px;
   border: 1px solid #ccc;
+  cursor: pointer;
+  background: #f1f5f9;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
-.submit-btn {
-  background: #16a34a;
+.status-btn.active {
+  background: #2563eb;
   color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+  border: 1px solid #1d4ed8;
 }
 
-.submit-btn:hover {
-  background: #15803d;
-}
-
-.cancel-btn {
-  background: #fef2f2;
-  color: #dc2626;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.cancel-btn:hover {
-  background: #fee2e2;
+.status-btn:hover {
+  background: #e0e7ff;
 }

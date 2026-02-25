@@ -9,7 +9,6 @@ router.get("/available", controller.getAvailableDrones);
 router.get("/:id", controller.getDroneById);
 router.put("/:id", controller.updateDrone);
 router.delete("/:id", controller.deleteDrone);
-
 router.patch("/:id/assign-station", controller.assignDroneToStation);
 router.patch("/:id/charging", controller.sendToCharging);
 router.patch("/:id/maintenance", controller.sendToMaintenance);

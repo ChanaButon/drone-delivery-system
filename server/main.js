@@ -3,18 +3,18 @@ import { connectDB } from "./config/db.js"
 import droneRoutes from "./routers/Drone.js"
 import baseStationRoutes from "./routers/BaseStation.js"
 import userRoutes from "./routers/User.js"
-import orderRoutes from "./routers/Order.js"
-import pachageRoutes from "./routers/Package.js"
+import deliveryRoutes from "./routers/Delivery.js";
 import cors from "cors";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
-const port = process.env.PORT;
+import { env } from "process";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config();
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
@@ -25,13 +25,12 @@ app.use(cors({
 
 app.use(express.static(join(__dirname, "client/dist")));
 
-await connectDB(); 
+await connectDB();
 
 app.use("/api/base-stations", baseStationRoutes);
 app.use("/api/drones", droneRoutes);
-app.use("/api/user",userRoutes);
-app.use("/api/order",orderRoutes);
-app.use("/api/pachage",pachageRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/deliveries", deliveryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running ");
@@ -41,5 +40,5 @@ app.get(/.*/, (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`🚀 Server running on port ${port}`);
 });

@@ -16,7 +16,6 @@ router.get("/", getStations);
 router.get("/:id", getStationById);
 router.put("/:id", updateStation);
 router.delete("/:id", deleteStation);
-
 router.get("/:id/drones-count", countDrones);
 router.get("/:id/has-capacity", checkCapacity);
 
