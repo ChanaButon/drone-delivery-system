@@ -1,57 +1,72 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Trash2, Edit, Zap, Check, Settings } from "lucide-react";
+import { Trash2, Edit, Zap, Check, Settings, Plus } from "lucide-react";
 import {
   getAllDrones,
   deleteDrone,
   sendDroneToCharging,
   sendDroneToMaintenance,
-  setDroneAvailable
+  setDroneAvailable,
+  createDrone // הוספתי את הפונקציה הזו
 } from "../../../api/drone-function.js";
 import "./DroneTable.css";
 
 const DroneTable = () => {
   const queryClient = useQueryClient();
-  const [selectedDrone, setSelectedDrone] = useState(null);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [newDrone, setNewDrone] = useState({ model: "", batteryLevel: "" });
 
-  // 🔹 Fetch drones
   const { data: drones = [], isLoading, isError } = useQuery({
     queryKey: ["drones"],
     queryFn: getAllDrones
   });
 
-  // 🔹 DELETE drone
   const deleteMutation = useMutation({
     mutationFn: deleteDrone,
     onSuccess: () => queryClient.invalidateQueries(["drones"])
   });
 
-  // 🔹 Charging
   const chargeMutation = useMutation({
     mutationFn: sendDroneToCharging,
     onSuccess: () => queryClient.invalidateQueries(["drones"])
   });
 
-  // 🔹 Maintenance
   const maintenanceMutation = useMutation({
     mutationFn: sendDroneToMaintenance,
     onSuccess: () => queryClient.invalidateQueries(["drones"])
   });
 
-  // 🔹 Set available
   const availableMutation = useMutation({
     mutationFn: setDroneAvailable,
     onSuccess: () => queryClient.invalidateQueries(["drones"])
   });
 
+  // 🔹 Mutation ליצירת רחפן חדש
+  const createMutation = useMutation({
+    mutationFn: createDrone,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["drones"]);
+      setPopupOpen(false);
+      setNewDrone({ model: "", batteryLevel: "" });
+    }
+  });
+
   if (isLoading) return <p>Loading drones...</p>;
   if (isError) return <p>Error loading drones</p>;
 
-  // 🔹 Function to determine battery color
   const getBatteryClass = (level) => {
     if (level > 80) return "battery-high";
     if (level > 40) return "battery-medium";
     return "battery-low";
+  };
+
+  const handleAddDrone = () => {
+    // המרה ל-number של הסוללה
+    const payload = {
+      ...newDrone,
+      batteryLevel: Number(newDrone.batteryLevel)
+    };
+    createMutation.mutate(payload);
   };
 
   return (
@@ -77,39 +92,31 @@ const DroneTable = () => {
             <tr key={drone._id}>
               <td>{drone._id}</td>
               <td>{drone.model}</td>
-
-             <td>
-  <span className={`status-badge ${drone.status}`}>
-    {drone.status === "charging" && <Zap size={14} />}
-    {drone.status === "maintenance" && <Settings size={14} />}
-    {drone.status === "available" && <Check size={14} />}
-    {drone.status}
-  </span>
-</td>
+              <td>
+                <span className={`status-badge ${drone.status}`}>
+                  {drone.status === "charging" && <Zap size={14} />}
+                  {drone.status === "maintenance" && <Settings size={14} />}
+                  {drone.status === "available" && <Check size={14} />}
+                  {drone.status}
+                </span>
+              </td>
               <td>
                 <span className={`battery-badge ${getBatteryClass(drone.batteryLevel)}`}>
                   {drone.batteryLevel}%
                 </span>
               </td>
-
               <td>{drone.station ? drone.station.name : "Not Assigned"}</td>
-
               <td>
                 <div className="actions">
-                  {/* Edit button */}
                   <button className="edit-btn">
                     <Edit size={16} />
                   </button>
-
-                  {/* Delete button */}
                   <button
                     className="delete-btn"
                     onClick={() => deleteMutation.mutate(drone._id)}
                   >
                     <Trash2 size={16} />
                   </button>
-
-                  {/* Charging button */}
                   {drone.status !== "charging" && (
                     <button
                       className="charge-btn"
@@ -118,8 +125,6 @@ const DroneTable = () => {
                       ⚡
                     </button>
                   )}
-
-                  {/* Maintenance button */}
                   {drone.status !== "maintenance" && (
                     <button
                       className="maintenance-btn"
@@ -128,8 +133,6 @@ const DroneTable = () => {
                       🛠
                     </button>
                   )}
-
-                  {/* Set Available */}
                   {drone.status !== "available" && (
                     <button
                       className="available-btn"
@@ -144,6 +147,38 @@ const DroneTable = () => {
           ))}
         </tbody>
       </table>
+
+      {/* 🔹 כפתור הוספה */}
+      <button className="add-drone-btn" onClick={() => setPopupOpen(true)}>
+        <Plus size={18} /> Add Drone
+      </button>
+
+      {/* 🔹 Popup */}
+      {popupOpen && (
+        <div className="popup-overlay" onClick={() => setPopupOpen(false)}>
+          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Add New Drone</h3>
+            <input
+              type="text"
+              placeholder="Drone Model"
+              value={newDrone.model}
+              onChange={(e) => setNewDrone({ ...newDrone, model: e.target.value })}
+            />
+            <input
+              type="number"
+              placeholder="Battery Level (%)"
+              value={newDrone.batteryLevel}
+              onChange={(e) => setNewDrone({ ...newDrone, batteryLevel: e.target.value })}
+            />
+            <button className="submit-btn" onClick={handleAddDrone}>
+              Add
+            </button>
+            <button className="cancel-btn" onClick={() => setPopupOpen(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
