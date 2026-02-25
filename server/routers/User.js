@@ -1,4 +1,5 @@
 import express from "express";
+import { protect, adminOnly } from "../middleware/auth.js";
 import {
   register,
   login,
@@ -9,11 +10,11 @@ import {
 } from "../controllers/User.js";
 
 const router = express.Router();
-router.get("/", getAll);      
-router.delete("/:id", removeUser);
-router.post("/register", register);
-router.post("/login", login);
-router.get("/:id", getProfile);
-router.put("/:id", updateProfile);
+router.get("/", protect, adminOnly, getAll);
+router.delete("/:id", protect, adminOnly, removeUser);
+router.get("/:id", protect, getProfile);
+router.put("/:id", protect, updateProfile);
+
+
 
 export default router;
