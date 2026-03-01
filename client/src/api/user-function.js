@@ -1,41 +1,9 @@
 const BASE_URL = "http://localhost:3000/api/user";
-export const registerUser = async (userData) => {
-  const res = await fetch(`${BASE_URL}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(userData)
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to register");
-  }
-
-  return await res.json();
-};
-
-
-
-export const loginUser = async (credentials) => {
-  const res = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(credentials)
-  });
-
-  if (!res.ok) {
-    throw new Error("Invalid credentials");
-  }
-
-  return await res.json();
-};
-
 
 export const getAllUsers = async () => {
-  const res = await fetch(BASE_URL);
+  const res = await fetch(BASE_URL, {
+    credentials: "include"
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch users");
@@ -82,4 +50,16 @@ export const deleteUser = async (id) => {
   }
 
   return await res.json();
+};
+
+export const getCurrentUser = async () => {
+  const res = await fetch(`${BASE_URL}/me`, {
+    credentials: "include"
+  });
+
+  if (!res.ok) {
+    throw new Error("Not authenticated");
+  }
+
+  return res.json();
 };

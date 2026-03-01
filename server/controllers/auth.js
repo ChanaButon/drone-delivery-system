@@ -7,22 +7,26 @@ import {
 
 const cookieOptionsAccess = {
   httpOnly: true,
-  secure: true,
-  sameSite: "Strict",
+  secure: false,       
+  sameSite: "Lax",     
   maxAge: 15 * 60 * 1000
 };
 
 const cookieOptionsRefresh = {
   httpOnly: true,
-  secure: true,
-  sameSite: "Strict",
+  secure: false,
+  sameSite: "Lax",
   maxAge: 7 * 24 * 60 * 60 * 1000
 };
 
 export const register = async (req, res) => {
   try {
-    const user = await registerService(req.body);
-    res.status(201).json(user);
+    const result = await registerService(req.body);
+
+    res.cookie("accessToken", result.accessToken, cookieOptionsAccess);
+    res.cookie("refreshToken", result.refreshToken, cookieOptionsRefresh);
+
+    res.status(201).json({ user: result.user });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

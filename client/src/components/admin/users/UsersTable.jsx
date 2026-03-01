@@ -1,8 +1,14 @@
-import users from "../../../../mock/users.json";
+import { useQuery } from "@tanstack/react-query";
+import { getAllUsers } from "../../../api/user-function";
 import { Trash2, Edit } from "lucide-react";
 import "./UsersTable.css";
 
 const UsersTable = () => {
+  const { data: users, isLoading, error } = useQuery({
+    queryKey: ["allUsers"],
+    queryFn: getAllUsers
+  });
+
   const getRoleClass = (role) => {
     const r = role.toLowerCase();
 
@@ -11,6 +17,9 @@ const UsersTable = () => {
 
     return "role-user";
   };
+
+  if (isLoading) return <p>Loading users...</p>;
+  if (error) return <p>Not authorized</p>;
 
   return (
     <div className="admin-card">
@@ -21,7 +30,6 @@ const UsersTable = () => {
       <table className="users-table">
         <thead>
           <tr>
-            <th>User ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
@@ -32,10 +40,9 @@ const UsersTable = () => {
 
         <tbody>
           {users.map((user) => (
-            <tr key={user.id}>
-              <td className="user-id">{user.id}</td>
+            <tr key={user._id}>
 
-              <td className="user-name">{user.fullName}</td>
+              <td className="user-name">{user.name}</td>
 
               <td className="user-email">{user.email}</td>
 
@@ -47,7 +54,7 @@ const UsersTable = () => {
 
               <td>
                 <span className="deliveries-badge">
-                  {user.totalDeliveries}
+                  {user.totalDeliveries || 0}
                 </span>
               </td>
 

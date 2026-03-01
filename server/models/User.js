@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema(
       required: true
     },
 
-    phone: String,
+    phone: {
+      type: String,
+      default: "no data"
+    },
 
     address: String,
 

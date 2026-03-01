@@ -14,7 +14,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
           onClick={() => setActiveTab("drones")}
           className={activeTab === "drones" ? "active" : ""}
         >
-          <Drone size={18} /> {/* אייקון רחפן */}
+          <Drone size={18} /> 
           Drones Management
         </button>
 

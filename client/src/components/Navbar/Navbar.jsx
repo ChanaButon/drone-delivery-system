@@ -27,8 +27,8 @@ const Navbar = () => {
           <a href="#">Support</a>
         </div>
         <div className="navbar-actions">
-          <button className="login-btn" onClick={() => navigate("/auth")}>Login</button>
-          <button className="join-btn" onClick={() => navigate("/auth")}>I'll start here</button>
+          <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
+          <button className="join-btn" onClick={() => navigate("/register")}>I'll start here</button>
         </div>
       </div>
     </nav>

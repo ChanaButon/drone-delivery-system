@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import AuthCard from './AuthCard';
+import { loginUser } from "../../api/auth-function";
+import droneImg from '../../assets/drone.png';
 import './LoginForm.css';
 
 const LoginForm = ({ onSwitchToSignUp }) => {
@@ -8,18 +9,40 @@ const LoginForm = ({ onSwitchToSignUp }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+  e.preventDefault();
 
-    // TODO: בעתיד כאן יהיה אימות אמיתי
-    console.log('Login:', email, password);
+  try {
+    const data = await loginUser({
+      email,
+      password
+    });
 
-    // ניווט מדומה לאתר
-    navigate("/dashboardUser");
-  };
+    if (data.user.role === "admin") {
+      
+      navigate("/adminDashboard");
+    } else {
+      console.log(data.user.role)
+      navigate("/userDashboard");
+    }
+
+  } catch (err) {
+    alert("Invalid credentials");
+  }
+};
+  
 
   return (
-    <AuthCard title="Welcome back!">
+  <div className="auth-page">
+    <div className="auth-card-login">
+      <img
+        src={droneImg}
+        alt="Drone delivery"
+        className="auth-image"
+      />
+
+      <h1>Welcome back!</h1>
+
       <form className="login-form" onSubmit={handleLogin}>
         <input
           type="email"
@@ -41,13 +64,14 @@ const LoginForm = ({ onSwitchToSignUp }) => {
 
         <div className="switch-link">
           <span>Don't have an account?</span>
-          <button type="button" onClick={onSwitchToSignUp}>
+          <button type="button" onClick={() => navigate("/register")}>
             Sign Up
           </button>
         </div>
       </form>
-    </AuthCard>
-  );
-};
+    </div>
+  </div>
+);
+}
 
 export default LoginForm;
