@@ -8,14 +8,14 @@ const DashboardHeader = () => {
     queryFn: getCurrentUser
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !user) return <div>Loading...</div>;
 
   const firstName = user?.name?.split(" ")[0] || "User";
-  const initials = user.name
-    .split(" ")
-    .map(word => word[0])
-    .join("")
-    .toUpperCase();
+  const initials = user?.name
+  ?.split(" ")
+  .map(word => word[0])
+  .join("")
+  .toUpperCase() || "U";
 
   
 

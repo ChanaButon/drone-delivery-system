@@ -85,11 +85,39 @@ export const refreshService = async (token) => {
 export const logoutService = async (token) => {
   if (!token) return;
 
-  const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-  const user = await User.findById(decoded.id);
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    const user = await User.findById(decoded.id);
 
-  if (user) {
-    user.refreshToken = null;
-    await user.save();
+    if (user) {
+      user.refreshToken = null;
+      await user.save();
+    }
+  } catch (err) {
+    return;
   }
+};
+
+export const changePasswordService = async (userId, oldPassword, newPassword) => {
+
+  if (!oldPassword || !newPassword) {
+    throw new Error("All fields are required");
+    console.log("2")
+  }
+  const user = await User.findById(userId);
+  if (!user) {
+    console.log("3")
+    throw new Error("User not found");
+  }
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+  if (!isMatch) {
+    console.log("4")
+    throw new Error("Old password is incorrect");
+  }
+  console.log("5")
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+  await user.save();
+  return true;
 };

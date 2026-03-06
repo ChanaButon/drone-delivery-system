@@ -2,7 +2,8 @@ import {
   registerService,
   loginService,
   refreshService,
-  logoutService
+  logoutService,
+  changePasswordService
 } from "../services/auth.js";
 
 const cookieOptionsAccess = {
@@ -70,3 +71,19 @@ export const logout = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const changePassword = async (req, res) => {
+  try {
+    const result = await changePasswordService(
+      req.user.id,
+      req.body.oldPassword,
+      req.body.newPassword
+    );
+    console.log("1")
+    res.json({ message: "Password updated successfully" });
+
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+

@@ -1,0 +1,45 @@
+/* NewDelivery.css */
+.new-delivery {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+.new-delivery h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.new-delivery form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.new-delivery input,
+.new-delivery select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.new-delivery button {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.new-delivery button:hover {
+  background-color: #495f8e;
+}

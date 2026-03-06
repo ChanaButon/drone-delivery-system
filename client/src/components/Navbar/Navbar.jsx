@@ -1,10 +1,32 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getCurrentUser } from "../../api/user-function";
+import { logoutUser } from "../../api/auth-function";
 import droneImg from '../../assets/drone.png';
 import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { data: user } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentUser,
+    staleTime: 1000 * 60 * 5
+  });
+
+
+ const handleLogoClick = async () => {
+  if (user) {
+    try {
+      await logoutUser();
+      queryClient.setQueryData(["currentUser"], null);
+      queryClient.invalidateQueries(["currentUser"]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  navigate("/");
+};
 
   return (
     <nav className="navbar">
@@ -12,7 +34,7 @@ const Navbar = () => {
         <div className="navbar-logo">
           <img
             src={droneImg}
-            onClick={() => navigate("/")}
+            onClick={ handleLogoClick}
             alt="Drone delivery"
             className="nav-image"
                />
@@ -27,8 +49,12 @@ const Navbar = () => {
           <a href="#">Support</a>
         </div>
         <div className="navbar-actions">
-          <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
-          <button className="join-btn" onClick={() => navigate("/register")}>I'll start here</button>
+          {!user && (
+            <>
+              <button className="login-btn" onClick={() => navigate("/login")}>Login</button>
+              <button className="join-btn" onClick={() => navigate("/register")}>I'll start here</button>
+            </>
+          )}
         </div>
       </div>
     </nav>

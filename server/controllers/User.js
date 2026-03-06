@@ -46,3 +46,18 @@ export const getCurrentUser = async (req, res) => {
   res.json(user);
 };
 
+export const updateAddress = async (req, res) => {
+  try {
+    const { city, street, number } = req.body;
+
+    if (!city || !street || !number) {
+      return res.status(400).json({ message: "All address fields are required" });
+    }
+
+    const updatedUser = await updateUserAddress(req.user.id, { city, street, number });
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+

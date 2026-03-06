@@ -23,7 +23,11 @@ const userSchema = new mongoose.Schema(
       default: "no data"
     },
 
-    address: String,
+    address:{
+       city:String,
+       street:String,
+       number:Number
+     },
 
     role: {
       type: String,

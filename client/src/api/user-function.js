@@ -63,3 +63,26 @@ export const getCurrentUser = async () => {
 
   return res.json();
 };
+
+export const updateAddress = async ({ city, street, number }) => {
+  const res = await fetch(`${BASE_URL}/address`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include",
+    body: JSON.stringify({
+      city,
+      street,
+      number
+    })
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+};

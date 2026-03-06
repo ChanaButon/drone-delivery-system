@@ -1,9 +1,12 @@
-.admin-card {
-  background: rgba(255,255,255,0.9);
+.admin-card{
+  background-color: rgba(255,255,255,0.9);
   backdrop-filter: blur(8px);
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  max-height: 170vh;
+  overflow-y: auto;
+
 }
 
 .card-header {

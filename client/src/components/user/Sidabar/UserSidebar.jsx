@@ -1,7 +1,26 @@
 import { User, Package, PlusCircle, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { logoutUser } from "../../../api/auth-function";
 import "./UserSidebar.css";
 
+
 const Sidebar = ({ activeTab, setActiveTab }) => {
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+const handleLogout = async () => {
+  try {
+    await logoutUser();
+    queryClient.setQueryData(["currentUser"], null);
+    queryClient.invalidateQueries(["currentUser"]);
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
   return (
     <aside className="sidebar">
       <nav className="sidebar-nav">
@@ -30,7 +49,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
         </button>
       </nav>
 
-      <button className="logout-btn">
+      <button className="logout-btn" onClick={handleLogout}>
         <LogOut size={18} />
         Logout
       </button>

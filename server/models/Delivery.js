@@ -8,10 +8,16 @@ const deliverySchema = new mongoose.Schema(
       required: true
     },
 
+    receiverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null
+    },
+
     receiver: {
-    name: { type: String, required: true },
-    phone: String,
-    address: String
+      name: { type: String, required: true },
+      phone: String,
+      address: String
     },
 
     droneId: {
@@ -20,21 +26,20 @@ const deliverySchema = new mongoose.Schema(
       default: null
     },
 
-    stationId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "BaseStation",
-      required: true
-    },
-
     weight: {
       type: Number,
       required: true
     },
 
-    dimensions: {
-      length: Number,
-      width: Number,
-      height: Number
+    price: {
+      type: Number,
+      required: true
+    },
+
+    deliveryType: {
+      type: String,
+      enum: ["REGULAR", "FAST"],
+      default: "REGULAR"
     },
 
     pickupLocation: {
@@ -51,28 +56,16 @@ const deliverySchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: [
-        "CREATED",
-        "ASSIGNED",
-        "LOADING",
-        "IN_FLIGHT",
-        "DELIVERED",
-        "FAILED"
-      ],
+      enum: ["CREATED", "ASSIGNED", "LOADING", "IN_FLIGHT", "DELIVERED", "FAILED"],
       default: "CREATED"
     },
 
-    price: Number,
-
     notes: String,
-
     assignedAt: Date,
     pickedUpAt: Date,
     deliveredAt: Date
   },
-  {
-    timestamps: true
-  }
+  { timestamps: true }
 );
 
 export const Delivery = mongoose.model("Delivery", deliverySchema);
