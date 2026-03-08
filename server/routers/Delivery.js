@@ -1,4 +1,5 @@
 import express from "express";
+import { protect} from "../middleware/auth.js";
 import {
   createDelivery,
   getAllDeliveries,
@@ -10,10 +11,12 @@ import {
 
 const router = express.Router();
 
-router.post("/", createDelivery);
+router.post("/",protect, createDelivery);
 router.get("/", getAllDeliveries);
-router.get("/:id", getDeliveryById);
+
 router.get("/user/:userId", getDeliveriesByUser);
+router.get("/:id", getDeliveryById);
+
 router.patch("/:id/assign-drone", assignDroneToDelivery);
 router.patch("/:id/status", updateDeliveryStatus);
 

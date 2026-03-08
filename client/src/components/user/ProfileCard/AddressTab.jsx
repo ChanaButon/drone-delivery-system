@@ -21,7 +21,7 @@ const AddressTab = ({ user, setShowAddressPopup }) => {
         <p>
           <strong>Address:</strong>{" "}
           <span className="add-address" onClick={openAddressPopup}>
-            No address yet — Add address
+            No address — Add address
           </span>
         </p>
       )}

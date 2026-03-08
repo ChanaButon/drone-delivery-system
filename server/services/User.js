@@ -1,5 +1,4 @@
 import { User } from "../models/User.js";
-import bcrypt from "bcryptjs";
 
 
 export const getAllUsers = async () => {
@@ -23,10 +22,22 @@ export const updateUserAddress = async (userId, address) => {
   const user = await User.findById(userId);
   if (!user) throw new Error("User not found");
 
-  user.address = address; // אם אין כתובת – יווצרה, אם יש – תתעדכן
+  user.address = address; 
   await user.save();
 
   return user;
 };
 
+export const findUsersByEmail = async (partialEmail) => {
+ 
+  if (!partialEmail) return [];
+  return await User.find({
+    email: { $regex: partialEmail, $options: "i" }
+  }).select("_id email fullName");
+};
+    
+export const getUserIdByEmail = async (email) => {
+  const user = await User.findOne({ email });
+  return user ? user._id : null;
+};
 

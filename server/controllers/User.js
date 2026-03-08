@@ -54,10 +54,30 @@ export const updateAddress = async (req, res) => {
       return res.status(400).json({ message: "All address fields are required" });
     }
 
-    const updatedUser = await updateUserAddress(req.user.id, { city, street, number });
+    const updatedUser = await userService.updateUserAddress(req.user.id, { city, street, number });
     res.json(updatedUser);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+export const getUsersByEmail = async (req, res) => {
+  try {
+    const { email } = req.query; // partial email
+    const users = await userService.findUsersByEmail(email);
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+export const getUserId = async (req, res) => {
+  try {
+    const { email } = req.query;
+    const userId = await userService.getUserIdByEmail(email);
+    res.json({ userId });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 

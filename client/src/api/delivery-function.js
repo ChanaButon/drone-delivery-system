@@ -23,6 +23,7 @@ export const getDeliveriesByUser = async (userId) => {
 };
 
 export const createDelivery = async (data) => {
+  console.log(data)
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: {
@@ -31,9 +32,9 @@ export const createDelivery = async (data) => {
     credentials: "include",
     body: JSON.stringify(data)
   });
-
+const json = await res.json();
   if (!res.ok) {
-    throw new Error("Failed to create delivery");
+    throw new Error(json.message);
   }
   return await res.json();
 };

@@ -1,27 +1,13 @@
-.package-list {
-  margin-top: 32px;
-}
-
-.package-list h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.packages {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .package-card {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 16px;
   background: white;
   border-radius: 20px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .pkg-id {
@@ -29,8 +15,9 @@
   color: #0f172a;
 }
 
-.pkg-dest {
+.pkg-dest, .pkg-notes {
   color: #64748b;
+  font-size: 14px;
 }
 
 .pkg-status {
@@ -39,19 +26,13 @@
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 4px;
 }
 
-.pkg-status.in-flight {
-  background: #bfdbfe;
-  color: #1e40af;
-}
-
-.pkg-status.charging {
-  background: #fed7aa;
-  color: #b45309;
-}
-
-.pkg-status.delivered {
-  background: #bbf7d0;
-  color: #166534;
-}
+.pkg-status.created { background: #e5e7eb; color: #374151; }
+.pkg-status.assigned { background: #fef3c7; color: #b45309; }
+.pkg-status.loading { background: #bfdbfe; color: #1e40af; }
+.pkg-status.in-flight { background: #93c5fd; color: #1e3a8a; }
+.pkg-status.delivered { background: #bbf7d0; color: #166534; }
+.pkg-status.failed { background: #fecaca; color: #991b1b; }

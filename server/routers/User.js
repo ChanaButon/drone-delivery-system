@@ -6,12 +6,16 @@ import {
   getAll,
   removeUser,
   getCurrentUser,
-  updateAddress
+  updateAddress,
+  getUsersByEmail,
+  getUserId
 } from "../controllers/User.js";
 
 const router = express.Router();
 router.get("/me", protect, getCurrentUser);
 router.put("/address",protect, updateAddress);
+router.get("/autocomplete", getUsersByEmail);
+router.get("/get-id", getUserId);
 router.get("/", protect, adminOnly, getAll);
 router.get("/:id", protect, getProfile);
 router.put("/:id", protect, updateProfile);

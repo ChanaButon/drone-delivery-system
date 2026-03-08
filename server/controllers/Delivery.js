@@ -10,8 +10,14 @@ import {
 
 export const createDelivery = async (req, res) => {
   try {
-    const delivery = await createDeliveryService(req.body);
+
+    const delivery = await createDeliveryService({
+      ...req.body,
+      senderId: req.user.id
+    });
+
     res.status(201).json(delivery);
+
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

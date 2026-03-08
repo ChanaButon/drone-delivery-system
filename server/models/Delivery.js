@@ -1,5 +1,18 @@
 import mongoose from "mongoose";
 
+const locationSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["Point"],
+    default: "Point"
+  },
+  coordinates: {
+    type: [Number],
+    required: true
+  },
+  address: String
+});
+
 const deliverySchema = new mongoose.Schema(
   {
     senderId: {
@@ -15,9 +28,8 @@ const deliverySchema = new mongoose.Schema(
     },
 
     receiver: {
-      name: { type: String, required: true },
-      phone: String,
-      address: String
+      name: String,
+      phone: String
     },
 
     droneId: {
@@ -26,15 +38,13 @@ const deliverySchema = new mongoose.Schema(
       default: null
     },
 
-    weight: {
-      type: Number,
+    weightRange: {
+      type: String,
+      enum: ["0-5", "5-10", "10-20"],
       required: true
     },
 
-    price: {
-      type: Number,
-      required: true
-    },
+    price: Number,
 
     deliveryType: {
       type: String,
@@ -42,17 +52,9 @@ const deliverySchema = new mongoose.Schema(
       default: "REGULAR"
     },
 
-    pickupLocation: {
-      lat: Number,
-      lng: Number,
-      address: String
-    },
+    pickupLocation: locationSchema,
 
-    deliveryLocation: {
-      lat: Number,
-      lng: Number,
-      address: String
-    },
+    deliveryLocation: locationSchema,
 
     status: {
       type: String,
@@ -67,5 +69,8 @@ const deliverySchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+deliverySchema.index({ pickupLocation: "2dsphere" });
+deliverySchema.index({ deliveryLocation: "2dsphere" });
 
 export const Delivery = mongoose.model("Delivery", deliverySchema);

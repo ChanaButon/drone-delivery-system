@@ -3,15 +3,20 @@ import jwt from "jsonwebtoken";
 export const protect = (req, res, next) => {
   const token = req.cookies.accessToken;
 
+  console.log("token:", token);
+
   if (!token) {
     return res.status(401).json({ message: "Not authenticated" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    console.log("decoded:", decoded);
+
     req.user = decoded;
     next();
-  } catch {
+  } catch (err) {
+    console.log(err);
     return res.status(401).json({ message: "Token expired" });
   }
 };
@@ -30,7 +35,7 @@ export const authMiddleware = (req, res, next) => {
 
   try {
  
-    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; 
     next();
   } catch (err) {

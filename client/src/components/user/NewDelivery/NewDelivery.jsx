@@ -1,75 +1,226 @@
-// NewDelivery.js
 import { useState } from "react";
+import {useMutation, useQuery } from "@tanstack/react-query";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ScaleIcon from "@mui/icons-material/Scale";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import NotesIcon from "@mui/icons-material/Notes";
+
+import { createDelivery} from "../../../api/delivery-function"; 
+import {
+  findUsersByEmail,
+  getUserIdByEmail
+} from "../../../api/user-function"; 
+
 import "./NewDelivery.css";
 
 const NewDelivery = () => {
-  const [formData, setFormData] = useState({
-    receiverName: "",
-    receiverPhone: "",
-    receiverAddress: "",
-    pickupAddress: "",
-    weight: "",
-    deliveryType: "REGULAR"
+  const [useOther, setUseOther] = useState(false);
+
+  const [receiverEmail, setReceiverEmail] = useState("");
+  const [receiverId, setReceiverId] = useState(null);
+  const [receiverName, setReceiverName] = useState("");
+  const [receiverPhone, setReceiverPhone] = useState("");
+
+  const [pickupZip, setPickupZip] = useState("");
+  const [pickupAddress, setPickupAddress] = useState("");
+
+  const [deliveryZip, setDeliveryZip] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+
+  const [weightRange, setWeightRange] = useState("0-5");
+  const [deliveryType, setDeliveryType] = useState("REGULAR");
+
+  const [notes, setNotes] = useState("");
+
+  const [searchText, setSearchText] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const { data: suggestions = [] } = useQuery({
+    queryKey: ["autocompleteUsers", searchText],
+    queryFn: () => findUsersByEmail(searchText),
+    enabled: !!searchText && !useOther
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleSelectUser = async (email) => {
+    setReceiverEmail(email);
+    const id = await getUserIdByEmail(email);
+    setReceiverId(id);
+    setShowDropdown(false);
   };
+
+   const mutation = useMutation({
+    mutationFn: createDelivery,
+    onSuccess: (data) => {
+      alert("Delivery created successfully!");
+      
+    },
+    onError: (err) => {
+      alert("Failed to create delivery: " + err.message);
+    }
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // כאן תשלחי את הנתונים ל-Backend
+
+    const payload = {
+      receiverEmail: useOther ? "" : receiverEmail,
+      receiverId: useOther ? null : receiverId,
+      receiverName: useOther ? receiverName : "",
+      receiverPhone: useOther ? receiverPhone : "",
+      pickupZip,
+      pickupAddress,
+      deliveryZip,
+      deliveryAddress,
+      weightRange,
+      deliveryType,
+      notes
+    };
+    mutation.mutate(payload);
   };
 
   return (
-    <div className="new-delivery">
-      <h2>New Delivery</h2>
+    <div className="delivery-form">
+      <h2>Create New Delivery</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          name="receiverName"
-          placeholder="Recipient Name"
-          value={formData.receiverName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="receiverPhone"
-          placeholder="Recipient Phone"
-          value={formData.receiverPhone}
-          onChange={handleChange}
-        />
-        <input
-          name="receiverAddress"
-          placeholder="Destination Address"
-          value={formData.receiverAddress}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="pickupAddress"
-          placeholder="Pickup Address"
-          value={formData.pickupAddress}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="weight"
-          placeholder="Package Weight (kg)"
-          type="number"
-          value={formData.weight}
-          onChange={handleChange}
-          required
-        />
-        <select
-          name="deliveryType"
-          value={formData.deliveryType}
-          onChange={handleChange}
-        >
-          <option value="REGULAR">Standard</option>
-          <option value="FAST">Express</option>
-        </select>
-        <button type="submit">Launch Delivery Drone</button>
+
+        {/* Receiver */}
+        <section className="form-section">
+          <h3>
+            <PersonIcon className="section-icon" />
+            Receiver
+          </h3>
+
+          {!useOther && (
+            <div style={{ position: "relative" }}>
+              <div className="input-icon">
+                <EmailIcon />
+                <input
+                  placeholder="Receiver Email (if registered)"
+                  value={receiverEmail}
+                  onChange={(e) => {
+                    setReceiverEmail(e.target.value);
+                    setSearchText(e.target.value);
+                    setShowDropdown(true);
+                  }}
+                  onFocus={() => setShowDropdown(true)}
+                />
+                <button
+                  type="button"
+                  className="other-btn"
+                  onClick={() => {
+                    setUseOther(true);
+                    setShowDropdown(false);
+                  }}
+                >
+                  Other
+                </button>
+              </div>
+
+              {showDropdown && suggestions.length > 0 && (
+                <ul className="autocomplete-dropdown">
+                  {suggestions.map((user) => (
+                    <li key={user._id} onClick={() => handleSelectUser(user.email)}>
+                      {user.email} - {user.fullName}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {useOther && (
+            <>
+              <div className="input-icon">
+                <PersonIcon />
+                <input
+                  placeholder="Full Name"
+                  value={receiverName}
+                  onChange={(e) => setReceiverName(e.target.value)}
+                />
+              </div>
+
+              <div className="input-icon">
+                <PhoneIcon />
+                <input
+                  placeholder="Phone Number"
+                  value={receiverPhone}
+                  onChange={(e) => setReceiverPhone(e.target.value)}
+                />
+              </div>
+
+              <button
+                type="button"
+                className="other-btn"
+                onClick={() => setUseOther(false)}
+              >
+                Back to Email
+              </button>
+            </>
+          )}
+        </section>
+
+        {/* Pickup */}
+        <section className="form-section">
+          <h3>
+            <FlightTakeoffIcon className="section-icon" />
+            Pickup Location
+          </h3>
+          <input placeholder="ZIP Code" value={pickupZip} onChange={(e) => setPickupZip(e.target.value)} />
+          <input placeholder="Street Address" value={pickupAddress} onChange={(e) => setPickupAddress(e.target.value)} />
+        </section>
+
+        {/* Delivery */}
+        <section className="form-section">
+          <h3>
+            <LocationOnIcon className="section-icon" />
+            Delivery Location
+          </h3>
+          <input placeholder="ZIP Code" value={deliveryZip} onChange={(e) => setDeliveryZip(e.target.value)} />
+          <input placeholder="Street Address" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} />
+        </section>
+
+        {/* Package Details */}
+        <section className="form-section grid">
+          <div>
+            <label>
+              <ScaleIcon className="label-icon" />
+              Weight
+            </label>
+            <select value={weightRange} onChange={(e) => setWeightRange(e.target.value)}>
+              <option value="0-5">0-5 kg</option>
+              <option value="5-10">5-10 kg</option>
+              <option value="10-20">10-20 kg</option>
+            </select>
+          </div>
+
+          <div>
+            <label>
+              <LocalShippingIcon className="label-icon" />
+              Delivery Type
+            </label>
+            <select value={deliveryType} onChange={(e) => setDeliveryType(e.target.value)}>
+              <option value="REGULAR">Regular</option>
+              <option value="FAST">Fast</option>
+            </select>
+          </div>
+        </section>
+
+        {/* Notes */}
+        <section className="form-section">
+          <h3>
+            <NotesIcon className="section-icon" />
+            Notes
+          </h3>
+          <textarea placeholder="Additional instructions..." value={notes} onChange={(e) => setNotes(e.target.value)} />
+        </section>
+
+        <button type="submit" className="submit-btn">
+          Create Delivery
+        </button>
       </form>
     </div>
   );

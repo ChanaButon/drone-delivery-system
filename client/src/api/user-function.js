@@ -86,3 +86,22 @@ export const updateAddress = async ({ city, street, number }) => {
 
   return data;
 };
+
+export const findUsersByEmail = async (partialEmail) => {
+  if (!partialEmail) return [];
+  const res = await fetch(`${BASE_URL}/autocomplete?email=${partialEmail}`, {
+    credentials: "include"
+  });
+  if (!res.ok) throw new Error("Failed to fetch users");
+  return res.json();
+};
+
+export const   getUserIdByEmail
+ = async (email) => {
+  const res = await fetch(`${BASE_URL}/get-id?email=${email}`, {
+    credentials: "include"
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data._id || null;
+};
