@@ -1,29 +1,61 @@
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCurrentUser } from "../../../api/user-function";
+import AddressTab from "./AddressTab";
+import PersonalTab from "./PersonalTab";
+import PasswordPopup from "./PasswordPopup";
+import AddressPopup from "./AddressPopup";
 import "./ProfileCard.css";
 
 const ProfileCard = () => {
+  const queryClient = useQueryClient();
+  const { data: user, isLoading, error } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentUser,
+  });
+
+  const [activeTab, setActiveTab] = useState("personal");
+  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const [showAddressPopup, setShowAddressPopup] = useState(false);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Failed to load profile</p>;
+
   return (
     <div className="profile">
-      <h2>My Profile</h2>
       <div className="profile-card">
-        {}
-        <div className="avatar">CC</div>
-
-        {}
-        <div className="profile-info">
-          <h3>Chana Cohen</h3>
-          <p><strong>Email:</strong> chana@example.com</p>
-          <p><strong>Phone:</strong> +972 50 123 4567</p>
-          <p><strong>Address:</strong> Rothschild 42, Tel Aviv</p>
-
-          {}
+        <div className="profile-tabs">
+          <button
+            className={activeTab === "personal" ? "active" : ""}
+            onClick={() => setActiveTab("personal")}
+          >
+            Personal Info
+          </button>
+          <button
+            className={activeTab === "address" ? "active" : ""}
+            onClick={() => setActiveTab("address")}
+          >
+            Address
+          </button>
         </div>
 
-        {}
-        <div className="profile-actions">
-          <button className="edit-btn">Edit Password</button>
-          <button className="edit-btn">Edit Address</button>
+        <div className="profile-content">
+          {activeTab === "personal" && (
+            <PersonalTab user={user} setShowPasswordPopup={setShowPasswordPopup} />
+          )}
+          {activeTab === "address" && (
+            <AddressTab user={user} setShowAddressPopup={setShowAddressPopup} />
+          )}
         </div>
       </div>
+
+      {showPasswordPopup && (
+        <PasswordPopup user={user} onClose={() => setShowPasswordPopup(false)} />
+      )}
+
+      {showAddressPopup && (
+        <AddressPopup user={user} onClose={() => setShowAddressPopup(false)} />
+      )}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 import {
   createDeliveryService,
   getAllDeliveriesService,
@@ -9,8 +10,14 @@ import {
 
 export const createDelivery = async (req, res) => {
   try {
-    const delivery = await createDeliveryService(req.body);
+
+    const delivery = await createDeliveryService({
+      ...req.body,
+      senderId: req.user.id
+    });
+
     res.status(201).json(delivery);
+
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -28,9 +35,7 @@ export const getAllDeliveries = async (req, res) => {
 export const getDeliveryById = async (req, res) => {
   try {
     const delivery = await getDeliveryByIdService(req.params.id);
-    if (!delivery) {
-      return res.status(404).json({ message: "Delivery not found" });
-    }
+    if (!delivery) return res.status(404).json({ message: "Delivery not found" });
     res.json(delivery);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -48,15 +53,8 @@ export const getDeliveriesByUser = async (req, res) => {
 
 export const assignDroneToDelivery = async (req, res) => {
   try {
-    const delivery = await assignDroneService(
-      req.params.id,
-      req.body.droneId
-    );
-
-    if (!delivery) {
-      return res.status(404).json({ message: "Delivery not found" });
-    }
-
+    const delivery = await assignDroneService(req.params.id, req.body.droneId);
+    if (!delivery) return res.status(404).json({ message: "Delivery not found" });
     res.json(delivery);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -65,15 +63,8 @@ export const assignDroneToDelivery = async (req, res) => {
 
 export const updateDeliveryStatus = async (req, res) => {
   try {
-    const delivery = await updateDeliveryStatusService(
-      req.params.id,
-      req.body.status
-    );
-
-    if (!delivery) {
-      return res.status(404).json({ message: "Delivery not found" });
-    }
-
+    const delivery = await updateDeliveryStatusService(req.params.id, req.body.status);
+    if (!delivery) return res.status(404).json({ message: "Delivery not found" });
     res.json(delivery);
   } catch (error) {
     res.status(400).json({ message: error.message });

@@ -1,11 +1,6 @@
 import { User } from "../models/User.js";
-import bcrypt from "bcryptjs";
 
-export const createUser = async (userData) => {
-  const hashedPassword = bcrypt.hashSync(userData.password, 10);
-  const user = new User({ ...userData, password: hashedPassword });
-  return await user.save();
-};
+
 export const getAllUsers = async () => {
   return await User.find().select("-password");
 };
@@ -18,18 +13,31 @@ export const deleteUser = async (id) => {
   return await User.findByIdAndDelete(id);
 };
 
-export const authenticateUser = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (!user) return null;
-
-  return isMatch
-  ? await User.findById(user._id).select("-password")
-  : null;
-};
 
 export const getUserById = async (id) => {
   return await User.findById(id).select("-password");
 };
 
+export const updateUserAddress = async (userId, address) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
 
+  user.address = address; 
+  await user.save();
+
+  return user;
+};
+
+export const findUsersByEmail = async (partialEmail) => {
+ 
+  if (!partialEmail) return [];
+  return await User.find({
+    email: { $regex: partialEmail, $options: "i" }
+  }).select("_id email fullName");
+};
+    
+export const getUserIdByEmail = async (email) => {
+  const user = await User.findOne({ email });
+  return user ? user._id : null;
+};
 

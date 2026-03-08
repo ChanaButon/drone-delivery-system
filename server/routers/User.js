@@ -1,19 +1,26 @@
 import express from "express";
+import { protect, adminOnly,authenticate } from "../middleware/auth.js";
 import {
-  register,
-  login,
   getProfile,
   updateProfile,
   getAll,
-  removeUser
+  removeUser,
+  getCurrentUser,
+  updateAddress,
+  getUsersByEmail,
+  getUserId
 } from "../controllers/User.js";
 
 const router = express.Router();
-router.get("/", getAll);      
-router.delete("/:id", removeUser);
-router.post("/register", register);
-router.post("/login", login);
-router.get("/:id", getProfile);
-router.put("/:id", updateProfile);
+router.get("/me", protect, getCurrentUser);
+router.put("/address",protect, updateAddress);
+router.get("/autocomplete", getUsersByEmail);
+router.get("/get-id", getUserId);
+router.get("/", protect, adminOnly, getAll);
+router.get("/:id", protect, getProfile);
+router.put("/:id", protect, updateProfile);
+router.delete("/:id", protect, adminOnly, removeUser);
+
+
 
 export default router;

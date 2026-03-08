@@ -18,14 +18,25 @@ const userSchema = new mongoose.Schema(
       required: true
     },
 
-    phone: String,
+    phone: {
+      type: String,
+      default: "no data"
+    },
 
-    address: String,
+    address:{
+       city:String,
+       street:String,
+       number:Number
+     },
 
     role: {
       type: String,
       enum: ["customer", "admin"],
       default: "customer"
+    },
+
+    refreshToken: {
+      type: String
     }
   },
   { timestamps: true }

@@ -1,0 +1,99 @@
+.delivery-form {
+  max-width: 700px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+}
+
+.form-section {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+input, select, textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea {
+  min-height: 90px;
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.label-icon {
+  margin-right: 5px;
+  font-size: 18px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #2f6fed;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.other-btn {
+  margin-left: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #ff9800;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.other-btn:hover {
+  background: #e68900;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  z-index: 10;
+  padding: 0;
+  margin: 2px 0 0 0;
+  list-style: none;
+}
+
+.autocomplete-dropdown li {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.autocomplete-dropdown li:hover {
+  background: #f0f0f0;
+}

@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Layout";
 import App from "./App";
-import AuthPage from "./components/auth/AuthPage";
+import Login from "./components/auth/LoginForm";
+import Register from "./components/auth/SignUpForm";
 import DashboardPage from "./pages/userDashboard/DashboardPage";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard"
 
@@ -15,11 +16,15 @@ const router = createBrowserRouter([
         element: <App />,   
       },
       {
-        path: "auth",
-        element: <AuthPage />,
+        path: "login",
+        element: <Login />,
       },
       {
-        path: "dashboardUser",
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "userDashboard",
         element: <DashboardPage />,
       },
       {

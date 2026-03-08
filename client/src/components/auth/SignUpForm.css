@@ -1,48 +1,124 @@
-.signup-form {
+.auth-card-register {
+  width: 650px;
+  height: 520px;
+  background: rgba(255, 255, 255, 0.76);
+  border-radius: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  animation: fadeInUp 0.5s ease-out;
+  margin-top: 20px;
 }
 
-.signup-form input {
-  padding: 0.8rem 1rem;
-  border-radius: 1rem;
-  width: 400px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+.auth-image {
+  width: 200px;
+  height: 200px;
+  margin-top: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
 }
-
-.signup-form input:focus {
-  border-color: #3b82f6;
-  outline: none;
-}
-
-.button-submit {
-  padding: 0.8rem 1rem;
-  border-radius: 1rem;
-  border: none;
-  background:hwb(47 3% 27%);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.button-submit:hover {
-  background: hwb(47 2% 58%);
-}
-
-.switch-link {
+.signup-form {
+  width: 500px;
   display: flex;
-  justify-content: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.form-section {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111;
+  letter-spacing: 1px;
+}
+
+.grid-two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  color: #111;
+}
+
+.input-group input {
+  border: none;
+  border-bottom: 2px solid #d32f2f;
+  padding: 0.5rem 0;
+  font-size: 1rem;
+  background: transparent;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.input-group input:focus {
+  border-bottom: 2px solid #000;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  color: #111;
+}
+
+.checkbox-group input {
+  margin-right: 0.5rem;
+}
+
+.link {
+  color: #1976d2;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cta-button {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 50px;
+  background-color: #ffd600;
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.cta-button:hover {
+  background-color: #ffca28;
+}
+
+.bottom-link {
+  text-align: center;
   font-size: 0.9rem;
 }
 
-.switch-link button {
+.bottom-link button {
   background: none;
   border: none;
-  color: #3b82f6;
-  cursor: pointer;
+  color: #1976d2;
   text-decoration: underline;
+  cursor: pointer;
+  margin-left: 0.3rem;
 }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

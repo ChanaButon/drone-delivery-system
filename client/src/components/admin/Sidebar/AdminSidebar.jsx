@@ -1,7 +1,23 @@
-import { Database, Users, Package, Drone, Navigation } from "lucide-react";
+import { Database, Users, Package, Drone, Navigation,LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { logoutUser } from "../../../api/auth-function";
 import "./AdminSidebar.css";
 
 const AdminSidebar = ({ activeTab, setActiveTab }) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleLogout = async () => {
+  try {
+    await logoutUser();
+    queryClient.setQueryData(["currentUser"], null);
+      queryClient.invalidateQueries(["currentUser"]);
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+  }
+};
   return (
     <aside className="admin-sidebar">
       <div className="admin-logo">
@@ -14,7 +30,7 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
           onClick={() => setActiveTab("drones")}
           className={activeTab === "drones" ? "active" : ""}
         >
-          <Drone size={18} /> {/* אייקון רחפן */}
+          <Drone size={18} /> 
           Drones Management
         </button>
 
@@ -42,6 +58,11 @@ const AdminSidebar = ({ activeTab, setActiveTab }) => {
           Users
         </button>
       </nav>
+
+       <button className="logout-btn" onClick={handleLogout}>
+        <LogOut size={18} />
+        Logout
+      </button>
     </aside>
   );
 };

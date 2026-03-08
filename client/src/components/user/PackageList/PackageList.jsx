@@ -1,38 +1,38 @@
+import { useQuery } from "@tanstack/react-query";
+import { getDeliveriesByUser } from "../../../api/delivery-function";
 import "./PackageList.css";
 
-const sentPackages = [
-  { id: "DRN-7721", destination: "12 Herzl St, Tel Aviv", status: "In Flight" },
-  { id: "DRN-5512", destination: "5 HaNeviim, Haifa", status: "Charging" },
-];
+const PackageList = ({ userId }) => {
+  const { data: deliveries, isLoading, error } = useQuery({
+    queryKey: ["userDeliveries", userId],
+    queryFn: () => getDeliveriesByUser(userId)
+  });
 
-const incomingPackages = [
-  { id: "DRN-3390", source: "Apple Store", status: "Delivered" },
-  { id: "DRN-9901", source: "Super-Pharm", status: "Processing" },
-];
+  if (isLoading) return <p>Loading your deliveries...</p>;
+  if (error) return <p>Error fetching deliveries: {error.message}</p>;
 
-const PackageList = () => {
+  if (!deliveries || deliveries.length === 0) return <p>No deliveries found.</p>;
+
   return (
     <div className="my-deliveries">
       <h2>My Deliveries</h2>
-
-      <h3>Sent by Me</h3>
       <div className="package-list">
-        {sentPackages.map(pkg => (
-          <div key={pkg.id} className="package-card">
-            <p>{pkg.id}</p>
-            <p>{pkg.destination}</p>
-            <span className={`status ${pkg.status.replace(" ", "-").toLowerCase()}`}>{pkg.status}</span>
-          </div>
-        ))}
-      </div>
-
-      <h3>Incoming</h3>
-      <div className="package-list">
-        {incomingPackages.map(pkg => (
-          <div key={pkg.id} className="package-card">
-            <p>{pkg.id}</p>
-            <p>{pkg.source}</p>
-            <span className={`status ${pkg.status.replace(" ", "-").toLowerCase()}`}>{pkg.status}</span>
+        {deliveries.map(delivery => (
+          <div key={delivery._id} className="package-card">
+            <div>
+              <p className="pkg-id">{delivery._id}</p>
+              <p className="pkg-dest">
+                {delivery.deliveryLocation?.address || "No address"}
+              </p>
+              {delivery.notes && <p className="pkg-notes">{delivery.notes}</p>}
+            </div>
+            <div>
+              <span className={`pkg-status ${delivery.status.toLowerCase().replace("_", "-")}`}>
+                {delivery.status.replace("_", " ")}
+              </span>
+              <p>{delivery.deliveryType} Delivery</p>
+              <p>Weight: {delivery.weight} kg</p>
+            </div>
           </div>
         ))}
       </div>
