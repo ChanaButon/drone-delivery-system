@@ -1,4 +1,6 @@
 import { Drone } from "../models/Drone.js";
+import { BaseStation } from "../models/BaseStation.js";
+
 import mongoose from "mongoose";
 
 
@@ -7,14 +9,17 @@ const validateId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 
 export const createDrone = async (data) => {
-  if (!data.droneCode || data.batteryLevel == null) {
-    throw { status: 400, message: "Missing required fields" };
+  if (!data.model) {
+    throw { status: 400, message: "Model is required" };
   }
 
-  return Drone.create(data);
+  return Drone.create({
+    model: data.model,
+    batteryLevel: 100,
+    status: "available",
+    createdDate: new Date()
+  });
 };
-
-
 export const getAllDrones = () =>
   Drone.find().populate("baseStationId");
 
@@ -58,6 +63,9 @@ export const deleteDrone = async (id) => {
 
 
 export const assignDroneToStation = async (droneId, stationId) => {
+  if (!validateId(droneId))
+    throw { status: 400, message: "Invalid drone ID" };
+
   const drone = await getDroneById(droneId);
 
   if (!validateId(stationId))
@@ -73,27 +81,59 @@ export const assignDroneToStation = async (droneId, stationId) => {
       message: "Drone must be available to assign"
     };
 
+  const dronesCount = await Drone.countDocuments({
+    baseStationId: stationId
+  });
+
+  if (dronesCount >= station.capacity)
+    throw {
+      status: 400,
+      message: "Base station is full"
+    };
+
   drone.baseStationId = stationId;
   return drone.save();
 };
 
 
 export const sendToCharging = async (id) => {
+
+  if (!validateId(id))
+    throw { status: 400, message: "Invalid station ID" };
+
   const drone = await getDroneById(id);
 
-  if (drone.status !== "available")
+  if (!drone.baseStationId) {
+    throw {
+      status: 400,
+      message: "Drone must be assigned to a station before charging"
+    };
+  }
+
+  if (drone.status !== "available") {
     throw {
       status: 400,
       message: "Only available drones can be charged"
     };
+  }
 
   drone.status = "charging";
   return drone.save();
 };
 
-
 export const sendToMaintenance = async (id) => {
+
+if (!validateId(id))
+    throw { status: 400, message: "Invalid station ID" }; 
+
   const drone = await getDroneById(id);
+
+  if (!drone.baseStationId) 
+    throw {
+      status: 400,
+      message: "Drone must be assigned to a station before charging"
+    };
+
 
   if (drone.status !== "available")
     throw {
@@ -107,6 +147,9 @@ export const sendToMaintenance = async (id) => {
 };
 
 export const setAvailable = async (id) => {
+  if (!validateId(id))
+    throw { status: 400, message: "Invalid station ID" }; 
+
   const drone = await getDroneById(id);
 
   if (!["charging", "InMaintenance"].includes(drone.status)) {

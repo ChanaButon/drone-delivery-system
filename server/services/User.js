@@ -6,17 +6,8 @@ export const createUser = async (userData) => {
   const user = new User({ ...userData, password: hashedPassword });
   return await user.save();
 };
-
-export const authenticateUser = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (!user) return null;
-
-  const isMatch = bcrypt.compareSync(password, user.password);
-  return isMatch ? user : null;
-};
-
-export const getUserById = async (id) => {
-  return await User.findById(id).select("-password");
+export const getAllUsers = async () => {
+  return await User.find().select("-password");
 };
 
 export const updateUser = async (id, data) => {
@@ -26,3 +17,19 @@ export const updateUser = async (id, data) => {
 export const deleteUser = async (id) => {
   return await User.findByIdAndDelete(id);
 };
+
+export const authenticateUser = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) return null;
+
+  return isMatch
+  ? await User.findById(user._id).select("-password")
+  : null;
+};
+
+export const getUserById = async (id) => {
+  return await User.findById(id).select("-password");
+};
+
+
+

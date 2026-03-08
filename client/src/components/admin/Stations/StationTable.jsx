@@ -1,10 +1,17 @@
 import { useState } from "react";
-import stations from "../../../../mock/baseStations.json";
+import { useQuery } from "@tanstack/react-query";
+import { getAllStations } from "../../../api/baseStation-function.js";
+
 import { Trash2, Edit, Plus, MapPin } from "lucide-react";
 import "./StationTable.css";
 
 const StationTable = () => {
   const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const { data: stations = [], isLoading, isError } = useQuery({
+    queryKey: ["stations"],
+    queryFn: getAllStations
+  });
 
   const openMap = (location) => {
     setSelectedLocation(location);
@@ -13,6 +20,9 @@ const StationTable = () => {
   const closeMap = () => {
     setSelectedLocation(null);
   };
+
+  if (isLoading) return <p>Loading stations...</p>;
+  if (isError) return <p>Error loading stations</p>;
 
   return (
     <div className="admin-card">
@@ -23,7 +33,7 @@ const StationTable = () => {
       <table className="station-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Name Station</th>
             <th>Location</th>
             <th>Capacity</th>
             <th>Available Drones</th>
@@ -33,8 +43,8 @@ const StationTable = () => {
 
         <tbody>
           {stations.map((station) => (
-            <tr key={station.id}>
-              <td className="station-id">{station.id}</td>
+            <tr key={station._id}>
+              <td className="station-id">{station.name}</td>
 
               <td>
                 <button
@@ -75,7 +85,6 @@ const StationTable = () => {
         Add Station
       </button>
 
-      {/* MAP OVERLAY */}
       {selectedLocation && (
         <div className="map-overlay" onClick={closeMap}>
           <div className="map-container" onClick={(e) => e.stopPropagation()}>

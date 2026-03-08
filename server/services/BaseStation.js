@@ -73,22 +73,24 @@ export const deleteBaseStation = async (id) => {
 
 
 export const countDronesInStation = async (stationId) => {
-  validateId(stationId);
+  if (!validateId(stationId))
+    throw { status: 400, message: "Invalid station ID" };
 
-  return await Drone.countDocuments({ stationId });
+  return await Drone.countDocuments({ baseStationId: stationId });
 };
 
 
+
 export const hasFreeCapacity = async (stationId) => {
-  validateId(stationId);
+  if (!validateId(stationId))
+    throw { status: 400, message: "Invalid station ID" };
 
   const station = await BaseStation.findById(stationId);
-  if (!station) {
-    throw new Error("Base station not found");
-  }
+  if (!station)
+    throw { status: 404, message: "Base station not found" };
 
   const dronesCount = await Drone.countDocuments({
-    stationId
+    baseStationId: stationId
   });
 
   return dronesCount < station.capacity;

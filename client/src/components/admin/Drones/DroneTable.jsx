@@ -1,13 +1,49 @@
-import drones from "../../../../mock/drones.json";
-import { Trash2, Edit, Plus, Zap } from "lucide-react";
-
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Trash2, Edit, Plus, Zap, Check, Settings } from "lucide-react";
+import {
+  getAllDrones,
+  deleteDrone,
+  createDrone,
+  sendDroneToCharging,
+  sendDroneToMaintenance,
+  setDroneAvailable,
+  
+} from "../../../api/drone-function.js";
+import AddDroneModal from "./AddDroneModal";
+import DeleteDroneModal from "./DeleteDroneModal";
+import ManageDroneModal from "./ManageDroneModal";
 import "./DroneTable.css";
 
 const DroneTable = () => {
-  const getBatteryClass = (battery) => {
-    if (battery < 20) return "battery-low";
-    if (battery < 70) return "battery-medium";
-    return "battery-high";
+  const queryClient = useQueryClient();
+
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [deleteDroneSelected, setDeleteDroneSelected] = useState(null);
+  const [manageDroneSelected, setManageDroneSelected] = useState(null);
+
+  const { data: drones = [], isLoading, isError } = useQuery({
+    queryKey: ["drones"],
+    queryFn: getAllDrones
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteDrone,
+    onSuccess: () => queryClient.invalidateQueries(["drones"])
+  });
+
+  const createMutation = useMutation({
+    mutationFn: createDrone,
+    onSuccess: () => queryClient.invalidateQueries(["drones"])
+  });
+
+  if (isLoading) return <p>Loading drones...</p>;
+  if (isError) return <p>Error loading drones</p>;
+
+  const getBatteryClass = (level) => {
+    if (level > 80) return "battery-high";
+    if (level > 40) return "battery-medium";
+    return "battery-low";
   };
 
   return (
@@ -19,44 +55,37 @@ const DroneTable = () => {
       <table className="drone-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Model</th>
             <th>Status</th>
             <th>Battery</th>
             <th>Station</th>
             <th>Actions</th>
           </tr>
         </thead>
-
         <tbody>
-          {drones.map((d) => (
-            <tr key={d.id}>
-              <td className="drone-id">{d.id}</td>
-
+          {drones.map((drone) => (
+            <tr key={drone._id}>
+              <td>{drone.model}</td>
               <td>
-                <span className={`status-badge status-${d.status.toLowerCase()}`}>
-                  {d.status}
+                <span className={`status-badge ${drone.status}`}>
+                  {drone.status === "charging" && <Zap size={14} />}
+                  {drone.status === "maintenance" && <Settings size={14} />}
+                  {drone.status === "available" && <Check size={14} />}
+                  {drone.status}
                 </span>
               </td>
-
               <td>
-                 <div className={`battery ${getBatteryClass(d.battery)}`}>
-                    {d.status === "charging" && (
-                    <Zap size={16} className="charging-icon" />
-                     )}
-                    {d.battery}%
-                    </div>
+                <span className={`battery-badge ${getBatteryClass(drone.batteryLevel)}`}>
+                  {drone.batteryLevel}%
+                </span>
               </td>
-
-
-              <td>{d.station}</td>
-
+              <td>{drone.station ? drone.station.name : "Not Assigned"}</td>
               <td>
                 <div className="actions">
-                  <button className="edit-btn">
+                  <button className="edit-btn" onClick={() => setManageDroneSelected(drone)}>
                     <Edit size={16} />
                   </button>
-
-                  <button className="delete-btn">
+                  <button className="delete-btn" onClick={() => setDeleteDroneSelected(drone)}>
                     <Trash2 size={16} />
                   </button>
                 </div>
@@ -66,10 +95,31 @@ const DroneTable = () => {
         </tbody>
       </table>
 
-      <button className="add-drone-btn">
-        <Plus size={18} />
-        Add Drone
+      <button className="add-drone-btn" onClick={() => setAddModalOpen(true)}>
+        <Plus size={18} /> Add Drone
       </button>
+
+      {addModalOpen && (
+        <AddDroneModal
+          onClose={() => setAddModalOpen(false)}
+          createMutation={createMutation}
+        />
+      )}
+
+      {deleteDroneSelected && (
+        <DeleteDroneModal
+          drone={deleteDroneSelected}
+          onClose={() => setDeleteDroneSelected(null)}
+          deleteMutation={deleteMutation}
+        />
+      )}
+
+      {manageDroneSelected && (
+        <ManageDroneModal
+          drone={manageDroneSelected}
+          onClose={() => setManageDroneSelected(null)}
+        />
+      )}
     </div>
   );
 };

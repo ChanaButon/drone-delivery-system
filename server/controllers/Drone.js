@@ -18,6 +18,7 @@ export const getDrones = async (req, res, next) => {
 
 export const getDroneById = async (req, res, next) => {
   try {
+    console.log("BODY:", req.params.id);
     res.json(await droneService.getDroneById(req.params.id));
   } catch (e) {
     next(e);
@@ -26,6 +27,7 @@ export const getDroneById = async (req, res, next) => {
 
 export const updateDrone = async (req, res, next) => {
   try {
+    console.log("BODY:", req.body);
     res.json(await droneService.updateDrone(req.params.id, req.body));
   } catch (e) {
     next(e);
