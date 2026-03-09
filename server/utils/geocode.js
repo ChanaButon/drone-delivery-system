@@ -1,28 +1,30 @@
 import axios from "axios";
 
-const apiKey = process.env.POSITIONSTACK_KEY;
+export const getLatLngFromAddress = async (city, street, number) => {
+  const address = `${street} ${number}, ${city}, Israel`;
 
-export const getLatLngFromZip = async (zip) => {
-  try {
-    const response = await axios.get(
-      `http://api.positionstack.com/v1/forward`,
-      {
-        params: {
-          access_key: apiKey,
-          query: `${zip}, Israel`,
-          limit: 1
-        }
+  const response = await axios.get(
+    "https://nominatim.openstreetmap.org/search",
+    {
+      params: {
+        q: address,
+        format: "json",
+        limit: 1
+      },
+      headers: {
+        "User-Agent": "drone-delivery-app"
       }
-    );
-
-    if (!response.data.data || response.data.data.length === 0) {
-      throw new Error(`Zip code ${zip} not found`);
     }
+  );
 
-    const location = response.data.data[0];
-    return { lat: location.latitude, lng: location.longitude };
-  } catch (error) {
-    console.error("Error fetching coordinates:", error.message);
-    throw new Error("Unable to get coordinates from zip code");
+  if (!response.data || response.data.length === 0) {
+    throw new Error("Address not found");
   }
+
+  const location = response.data[0];
+
+  return {
+    lat: parseFloat(location.lat),
+    lng: parseFloat(location.lon)
+  };
 };

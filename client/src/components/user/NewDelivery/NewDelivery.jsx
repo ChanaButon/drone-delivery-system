@@ -25,11 +25,13 @@ const NewDelivery = () => {
   const [receiverName, setReceiverName] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
 
-  const [pickupZip, setPickupZip] = useState("");
-  const [pickupAddress, setPickupAddress] = useState("");
+  const [pickupCity, setPickupCity] = useState("");
+  const [pickupStreet, setPickupStreet] = useState("");
+  const [pickupNumber, setPickupNumber] = useState("");
 
-  const [deliveryZip, setDeliveryZip] = useState("");
-  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [deliveryCity, setDeliveryCity] = useState("");
+  const [deliveryStreet, setDeliveryStreet] = useState("");
+  const [deliveryNumber, setDeliveryNumber] = useState("");
 
   const [weightRange, setWeightRange] = useState("0-5");
   const [deliveryType, setDeliveryType] = useState("REGULAR");
@@ -54,9 +56,8 @@ const NewDelivery = () => {
 
    const mutation = useMutation({
     mutationFn: createDelivery,
-    onSuccess: (data) => {
+    onSuccess: () => {
       alert("Delivery created successfully!");
-      
     },
     onError: (err) => {
       alert("Failed to create delivery: " + err.message);
@@ -71,14 +72,20 @@ const NewDelivery = () => {
       receiverId: useOther ? null : receiverId,
       receiverName: useOther ? receiverName : "",
       receiverPhone: useOther ? receiverPhone : "",
-      pickupZip,
-      pickupAddress,
-      deliveryZip,
-      deliveryAddress,
+
+      pickupCity,
+      pickupStreet,
+      pickupNumber,
+
+      deliveryCity,
+      deliveryStreet,
+      deliveryNumber,
+
       weightRange,
       deliveryType,
       notes
     };
+
     mutation.mutate(payload);
   };
 
@@ -87,7 +94,6 @@ const NewDelivery = () => {
       <h2>Create New Delivery</h2>
       <form onSubmit={handleSubmit}>
 
-        {/* Receiver */}
         <section className="form-section">
           <h3>
             <PersonIcon className="section-icon" />
@@ -163,27 +169,56 @@ const NewDelivery = () => {
           )}
         </section>
 
-        {/* Pickup */}
         <section className="form-section">
           <h3>
             <FlightTakeoffIcon className="section-icon" />
             Pickup Location
           </h3>
-          <input placeholder="ZIP Code" value={pickupZip} onChange={(e) => setPickupZip(e.target.value)} />
-          <input placeholder="Street Address" value={pickupAddress} onChange={(e) => setPickupAddress(e.target.value)} />
+
+          <input
+            placeholder="City"
+            value={pickupCity}
+            onChange={(e) => setPickupCity(e.target.value)}
+          />
+
+          <input
+            placeholder="Street"
+            value={pickupStreet}
+            onChange={(e) => setPickupStreet(e.target.value)}
+          />
+
+          <input
+            placeholder="House Number"
+            value={pickupNumber}
+            onChange={(e) => setPickupNumber(e.target.value)}
+          />
         </section>
 
-        {/* Delivery */}
         <section className="form-section">
           <h3>
             <LocationOnIcon className="section-icon" />
             Delivery Location
           </h3>
-          <input placeholder="ZIP Code" value={deliveryZip} onChange={(e) => setDeliveryZip(e.target.value)} />
-          <input placeholder="Street Address" value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} />
+
+          <input
+            placeholder="City"
+            value={deliveryCity}
+            onChange={(e) => setDeliveryCity(e.target.value)}
+          />
+
+          <input
+            placeholder="Street"
+            value={deliveryStreet}
+            onChange={(e) => setDeliveryStreet(e.target.value)}
+          />
+
+          <input
+            placeholder="House Number"
+            value={deliveryNumber}
+            onChange={(e) => setDeliveryNumber(e.target.value)}
+          />
         </section>
 
-        {/* Package Details */}
         <section className="form-section grid">
           <div>
             <label>
@@ -209,13 +244,16 @@ const NewDelivery = () => {
           </div>
         </section>
 
-        {/* Notes */}
         <section className="form-section">
           <h3>
             <NotesIcon className="section-icon" />
             Notes
           </h3>
-          <textarea placeholder="Additional instructions..." value={notes} onChange={(e) => setNotes(e.target.value)} />
+          <textarea
+            placeholder="Additional instructions..."
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+          />
         </section>
 
         <button type="submit" className="submit-btn">

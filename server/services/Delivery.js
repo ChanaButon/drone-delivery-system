@@ -1,39 +1,52 @@
 import { Delivery } from "../models/Delivery.js";
-import { getLatLngFromZip } from "../utils/geocode.js";
+import { getLatLngFromAddress } from "../utils/geocode.js";
 import { User } from "../models/User.js";
 
 export const createDeliveryService = async (deliveryData) => {
 
   const {
     receiverEmail,
-    receiverId,
     receiverName,
     receiverPhone,
-    pickupZip,
-    pickupAddress,
-    deliveryZip,
-    deliveryAddress,
+    pickupCity,
+    pickupStreet,
+    pickupNumber,
+    deliveryCity,
+    deliveryStreet,
+    deliveryNumber,
     weightRange,
     deliveryType,
     senderId
   } = deliveryData;
- 
+  console.log(deliveryData)
+
   const user = receiverEmail ? await User.findOne({ email: receiverEmail }) : null;
 
   let price = 20;
-  
-
 
   if (weightRange === "5-10") price += 10;
   if (weightRange === "10-20") price += 20;
   if (deliveryType === "FAST") price += 15;
-  const pickup = await getLatLngFromZip(pickupZip);
-  console.log(pickup)
-  const drop = await getLatLngFromZip(deliveryZip);
-  console.log(drop)
+
+  const pickup = await getLatLngFromAddress(
+    pickupCity,
+    pickupStreet,
+    pickupNumber
+  );
+console.log(pickup)
+  const drop = await getLatLngFromAddress(
+    deliveryCity,
+    deliveryStreet,
+    deliveryNumber
+  );
+console.log(drop)
+  const pickupAddress = `${pickupStreet} ${pickupNumber}, ${pickupCity}`;
+  const deliveryAddress = `${deliveryStreet} ${deliveryNumber}, ${deliveryCity}`;
+console.log(pickupAddress)
+console.log(deliveryAddress)
   const delivery = new Delivery({
     senderId,
-    receiverId: user._id,
+    receiverId: user?._id,
 
     receiver: user
       ? undefined
@@ -49,16 +62,16 @@ export const createDeliveryService = async (deliveryData) => {
     pickupLocation: {
       type: "Point",
       coordinates: [pickup.lng, pickup.lat],
-      address: pickupZip
+      address: pickupAddress
     },
 
     deliveryLocation: {
       type: "Point",
       coordinates: [drop.lng, drop.lat],
-      address: deliveryZip
+      address: deliveryAddress
     }
   });
-  console.log(delivery)
+
   return await delivery.save();
 };
 

@@ -13,8 +13,8 @@ export const getAllDeliveries = async () => {
 
 export const getDeliveriesByUser = async (userId) => {
   const res = await fetch(`${BASE_URL}/user/${userId}`, {
-    credentials: "include"
-  });
+  credentials: "include"
+});
 
   if (!res.ok) {
     throw new Error("Failed to fetch user deliveries");
@@ -23,7 +23,8 @@ export const getDeliveriesByUser = async (userId) => {
 };
 
 export const createDelivery = async (data) => {
-  console.log(data)
+  console.log(data);
+
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: {
@@ -32,13 +33,15 @@ export const createDelivery = async (data) => {
     credentials: "include",
     body: JSON.stringify(data)
   });
-const json = await res.json();
+
+  const json = await res.json();
+
   if (!res.ok) {
     throw new Error(json.message);
   }
-  return await res.json();
-};
 
+  return json;
+};
 export const updateDeliveryStatus = async (deliveryId, status) => {
   const res = await fetch(`${BASE_URL}/${deliveryId}/status`, {
     method: "PATCH",

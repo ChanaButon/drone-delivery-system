@@ -1,0 +1,147 @@
+.delivery-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  
+}
+
+.delivery-card {
+ background: white;
+  width: 650px;
+  max-width: 90%;
+  max-height: 80vh;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+  position: relative;
+  overflow-y: auto;
+}
+
+@keyframes popup {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.close-btn:hover {
+  background: #e2e8f0;
+}
+
+.delivery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.delivery-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.delivery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.info-block {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 14px;
+}
+
+.info-icon {
+  color: #2563eb;
+}
+
+.info-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.info-block p {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.pkg-status {
+  padding: 5px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.actions button {
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.actions button:hover {
+  opacity: 0.85;
+}
+
+.actions button.update {
+  background-color: #2563eb;
+  color: white;
+}
+
+.actions button.delete {
+  background-color: #ef4444;
+  color: white;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.pkg-status.created { background: #e5e7eb; color: #374151; }
+.pkg-status.assigned { background: #fef3c7; color: #b45309; }
+.pkg-status.loading { background: #bfdbfe; color: #1e40af; }
+.pkg-status.in_flight { background: #93c5fd; color: #1e3a8a; }
+.pkg-status.delivered { background: #bbf7d0; color: #166534; }
+.pkg-status.failed { background: #fecaca; color: #991b1b; }
