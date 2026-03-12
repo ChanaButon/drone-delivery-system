@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/auth-function";
 import droneImg from '../../assets/drone.png';
+import { showError  } from "../../utils/popup";
+
 import './LoginForm.css';
 
 const LoginForm = ({ onSwitchToSignUp }) => {
@@ -27,7 +29,8 @@ const LoginForm = ({ onSwitchToSignUp }) => {
     }
 
   } catch (err) {
-    alert("Invalid credentials");
+    showError("Invalid credentials");
+
   }
 };
   

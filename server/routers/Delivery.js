@@ -6,7 +6,9 @@ import {
   getDeliveryById,
   getDeliveriesByUser,
   assignDroneToDelivery,
-  updateDeliveryStatus
+  updateDeliveryStatus,
+  updateDelivery,
+deleteDelivery
 } from "../controllers/Delivery.js";
 
 const router = express.Router();
@@ -16,6 +18,8 @@ router.get("/", getAllDeliveries);
 
 router.get("/user/:userId", getDeliveriesByUser);
 router.get("/:id", getDeliveryById);
+router.patch("/:id", protect, updateDelivery);
+router.delete("/:id", protect, deleteDelivery);
 
 router.patch("/:id/assign-drone", assignDroneToDelivery);
 router.patch("/:id/status", updateDeliveryStatus);

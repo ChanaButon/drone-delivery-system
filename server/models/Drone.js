@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+
+const locationSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["Point"],
+    default: "Point"
+  },
+  coordinates: {
+    type: [Number],
+  }
+});
 const droneSchema = new mongoose.Schema({
   model: {
     type: String,
@@ -21,7 +32,11 @@ const droneSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "BaseStation"
   },
-
+  location:locationSchema,
+  speed:{
+    type: Number,
+    default: 150
+  },
   lastMaintenance: Date,
 
   createdDate: {

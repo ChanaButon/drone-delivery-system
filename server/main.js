@@ -12,6 +12,8 @@ import { env } from "process";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import authRoutes from "./routers/auth.js";
+import { startDroneSimulator } from "./batterySimulator.js";
+
 
 
 
@@ -35,7 +37,7 @@ app.use(cors({
 app.use(express.static(join(__dirname, "client/dist")));
 
 await connectDB();
-
+startDroneSimulator();
 app.use("/api/base-stations", baseStationRoutes);
 app.use("/api/drones", droneRoutes);
 app.use("/api/user", userRoutes);

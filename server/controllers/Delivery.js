@@ -5,7 +5,9 @@ import {
   getDeliveryByIdService,
   getDeliveriesByUserService,
   assignDroneService,
-  updateDeliveryStatusService
+  updateDeliveryStatusService,
+  updateDeliveryService,
+  deleteDeliveryService
 } from "../services/Delivery.js";
 
 export const createDelivery = async (req, res) => {
@@ -18,6 +20,25 @@ export const createDelivery = async (req, res) => {
 
     res.status(201).json(delivery);
 
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const updateDelivery = async (req, res) => {
+  try {
+    const delivery = await updateDeliveryService(req.params.id, req.body);
+    res.json(delivery);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
+export const deleteDelivery = async (req, res) => {
+  try {
+    const result = await deleteDeliveryService(req.params.id);
+    res.json(result);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Trash2, Edit, Plus, Zap, Check, Settings } from "lucide-react";
+import { Trash2, Edit, Plus, Zap, Check, Settings,Battery, BatteryLow} from "lucide-react";
 import {
   getAllDrones,
   deleteDrone,
@@ -11,7 +11,8 @@ import {
   
 } from "../../../api/drone-function.js";
 import AddDroneModal from "./AddDroneModal";
-import DeleteDroneModal from "./DeleteDroneModal";
+import BatteryIndicator from "./BatteryIndicator.jsx"
+import { showSuccess, showError, showConfirm } from "../../../utils/popup.js";
 import ManageDroneModal from "./ManageDroneModal";
 import "./DroneTable.css";
 
@@ -19,13 +20,14 @@ const DroneTable = () => {
   const queryClient = useQueryClient();
 
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [deleteDroneSelected, setDeleteDroneSelected] = useState(null);
   const [manageDroneSelected, setManageDroneSelected] = useState(null);
 
-  const { data: drones = [], isLoading, isError } = useQuery({
-    queryKey: ["drones"],
-    queryFn: getAllDrones
-  });
+ const { data: drones = [], isLoading, isError } = useQuery({
+  queryKey: ["drones"],
+  queryFn: getAllDrones,
+  refetchInterval: 20000, 
+  refetchIntervalInBackground: true 
+});
 
   const deleteMutation = useMutation({
     mutationFn: deleteDrone,
@@ -45,6 +47,19 @@ const DroneTable = () => {
     if (level > 40) return "battery-medium";
     return "battery-low";
   };
+
+  const handleDelete = async (drone) => {
+  const confirmed = await showConfirm(`Delete ${drone.model}?`);
+
+  if (!confirmed) return;
+
+  try {
+    await deleteMutation.mutateAsync(drone._id);
+    showSuccess("Drone deleted successfully");
+  } catch (err) {
+    showError(err.message);
+  }
+};
 
   return (
     <div className="admin-card">
@@ -67,27 +82,26 @@ const DroneTable = () => {
             <tr key={drone._id}>
               <td>{drone.model}</td>
               <td>
-                <span className={`status-badge ${drone.status}`}>
+                <span className={`status-badge status-${drone.status}`}>
                   {drone.status === "charging" && <Zap size={14} />}
-                  {drone.status === "maintenance" && <Settings size={14} />}
+                  {drone.status === "InMaintenance" && <Settings size={14} />}
                   {drone.status === "available" && <Check size={14} />}
+                  {drone.status === "delivering" && <Check size={14} />}
                   {drone.status}
                 </span>
               </td>
-              <td>
-                <span className={`battery-badge ${getBatteryClass(drone.batteryLevel)}`}>
-                  {drone.batteryLevel}%
-                </span>
-              </td>
-              <td>{drone.station ? drone.station.name : "Not Assigned"}</td>
+            <td>
+  <BatteryIndicator level={drone.batteryLevel} />
+</td>
+              <td>{drone.baseStationId ? drone.baseStationId.name : "Not Assigned"}</td>
               <td>
                 <div className="actions">
                   <button className="edit-btn" onClick={() => setManageDroneSelected(drone)}>
                     <Edit size={16} />
                   </button>
-                  <button className="delete-btn" onClick={() => setDeleteDroneSelected(drone)}>
-                    <Trash2 size={16} />
-                  </button>
+                 <button className="delete-btn" onClick={() => handleDelete(drone)}>
+  <Trash2 size={16} />
+</button>
                 </div>
               </td>
             </tr>
@@ -103,14 +117,6 @@ const DroneTable = () => {
         <AddDroneModal
           onClose={() => setAddModalOpen(false)}
           createMutation={createMutation}
-        />
-      )}
-
-      {deleteDroneSelected && (
-        <DeleteDroneModal
-          drone={deleteDroneSelected}
-          onClose={() => setDeleteDroneSelected(null)}
-          deleteMutation={deleteMutation}
         />
       )}
 

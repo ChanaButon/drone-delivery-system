@@ -92,6 +92,7 @@ export const assignDroneToStation = async (droneId, stationId) => {
     };
 
   drone.baseStationId = stationId;
+  drone.location=station.location
   return drone.save();
 };
 
@@ -102,6 +103,8 @@ export const sendToCharging = async (id) => {
     throw { status: 400, message: "Invalid station ID" };
 
   const drone = await getDroneById(id);
+  if(drone.batteryLevel===100)
+    throw { status: 400, message: "battery is 100" };
 
   if (!drone.baseStationId) {
     throw {

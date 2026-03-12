@@ -79,11 +79,22 @@ export const countDronesInStation = async (id) => {
   return await res.json();
 };
 
-export const checkStationCapacity = async (id) => {
+export const checkfreeCapacity = async (id) => {
   const res = await fetch(`${BASE_URL}/${id}/has-capacity`);
 
   if (!res.ok) {
     throw new Error("Failed to check capacity");
+  }
+
+  return await res.json();
+};
+
+export const getStationsWithCapacity = async () => {
+  console.log("11")
+  const res = await fetch(`${BASE_URL}/with-capacity`);
+console.log("21")
+  if (!res.ok) {
+    throw new Error("Failed to fetch stations");
   }
 
   return await res.json();

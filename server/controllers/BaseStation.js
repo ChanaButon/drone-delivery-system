@@ -11,7 +11,8 @@ export const createStation = async (req, res, next) => {
 
 export const getStations = async (req, res, next) => {
   try {
-    res.json(await baseStationService.getAllBaseStations());
+    const stations = await baseStationService.getAllBaseStations();
+    res.json(stations);
   } catch (err) {
     next(err);
   }
@@ -19,7 +20,8 @@ export const getStations = async (req, res, next) => {
 
 export const getStationById = async (req, res, next) => {
   try {
-    res.json(await baseStationService.getBaseStationById(req.params.id));
+    const station = await baseStationService.getBaseStationById(req.params.id);
+    res.json(station);
   } catch (err) {
     next(err);
   }
@@ -27,12 +29,11 @@ export const getStationById = async (req, res, next) => {
 
 export const updateStation = async (req, res, next) => {
   try {
-    res.json(
-      await baseStationService.updateBaseStation(
-        req.params.id,
-        req.body
-      )
+    const station = await baseStationService.updateBaseStation(
+      req.params.id,
+      req.body
     );
+    res.json(station);
   } catch (err) {
     next(err);
   }
@@ -49,11 +50,8 @@ export const deleteStation = async (req, res, next) => {
 
 export const countDrones = async (req, res, next) => {
   try {
-    res.json({
-      count: await baseStationService.countDronesInStation(
-        req.params.id
-      )
-    });
+    const count = await baseStationService.countDronesInStation(req.params.id);
+    res.json({ count });
   } catch (err) {
     next(err);
   }
@@ -61,10 +59,26 @@ export const countDrones = async (req, res, next) => {
 
 export const checkCapacity = async (req, res, next) => {
   try {
-    res.json({
-      hasFreeCapacity:
-        await baseStationService.hasFreeCapacity(req.params.id)
-    });
+    const hasFreeCapacity = await baseStationService.hasFreeCapacity(req.params.id);
+    res.json({ hasFreeCapacity });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getNearestStation = async (req, res, next) => {
+  try {
+    const station = await baseStationService.findNearestBaseStation(req.body);
+    res.json(station);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getStationsWithCapacity = async (req, res, next) => {
+  try {
+    const stations = await baseStationService.getStationsWithFreeCapacity();
+    res.json(stations);
   } catch (err) {
     next(err);
   }

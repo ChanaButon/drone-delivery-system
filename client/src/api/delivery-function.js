@@ -42,6 +42,38 @@ export const createDelivery = async (data) => {
 
   return json;
 };
+
+export const updateDelivery = async (deliveryId, data) => {
+  console.log(deliveryId)
+  console.log(data)
+  const res = await fetch(`${BASE_URL}/${deliveryId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "include",
+    body: JSON.stringify(data)
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update delivery");
+  }
+
+  return await res.json();
+};
+
+export const deleteDelivery = async (deliveryId) => {
+  const res = await fetch(`${BASE_URL}/${deliveryId}`, {
+    method: "DELETE",
+    credentials: "include"
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete delivery");
+  }
+
+  return await res.json();
+};
 export const updateDeliveryStatus = async (deliveryId, status) => {
   const res = await fetch(`${BASE_URL}/${deliveryId}/status`, {
     method: "PATCH",

@@ -1,5 +1,6 @@
 import { Delivery } from "../models/Delivery.js";
 import { getLatLngFromAddress } from "../utils/geocode.js";
+import { calculatePrice } from "../utils/calculatePrice.js"
 import { User } from "../models/User.js";
 
 export const createDeliveryService = async (deliveryData) => {
@@ -22,11 +23,7 @@ export const createDeliveryService = async (deliveryData) => {
 
   const user = receiverEmail ? await User.findOne({ email: receiverEmail }) : null;
 
-  let price = 20;
-
-  if (weightRange === "5-10") price += 10;
-  if (weightRange === "10-20") price += 20;
-  if (deliveryType === "FAST") price += 15;
+ const price = calculatePrice(weightRange, deliveryType)
 
   const pickup = await getLatLngFromAddress(
     pickupCity,
@@ -109,4 +106,78 @@ export const updateDeliveryStatusService = async (deliveryId, status) => {
     { status },
     { new: true }
   ).populate("senderId droneId");
+};
+
+export const updateDeliveryService = async (deliveryId, updateData) => {
+  const delivery = await Delivery.findById(deliveryId);
+
+  if (!delivery) {
+    throw new Error("Delivery not found");
+  }
+
+  if (delivery.status !== "CREATED") {
+    throw new Error("Only deliveries with status CREATED can be updated");
+  }
+
+  const {
+    pickupCity,
+    pickupStreet,
+    pickupNumber,
+    deliveryCity,
+    deliveryStreet,
+    deliveryNumber,
+    weightRange,
+    deliveryType
+  } = updateData;
+
+  if (pickupCity && pickupStreet && pickupNumber) {
+    const pickup = await getLatLngFromAddress(
+      pickupCity,
+      pickupStreet,
+      pickupNumber
+    );
+
+    delivery.pickupLocation = {
+      type: "Point",
+      coordinates: [pickup.lng, pickup.lat],
+      address: `${pickupStreet} ${pickupNumber}, ${pickupCity}`
+    };
+  }
+
+  if (deliveryCity && deliveryStreet && deliveryNumber) {
+    const drop = await getLatLngFromAddress(
+      deliveryCity,
+      deliveryStreet,
+      deliveryNumber
+    );
+
+    delivery.deliveryLocation = {
+      type: "Point",
+      coordinates: [drop.lng, drop.lat],
+      address: `${deliveryStreet} ${deliveryNumber}, ${deliveryCity}`
+    };
+  }
+
+  if (weightRange) delivery.weightRange = weightRange;
+  if (deliveryType) delivery.deliveryType = deliveryType;
+
+  const price = calculatePrice(weightRange, deliveryType)
+
+  return await delivery.save();
+};
+
+export const deleteDeliveryService = async (deliveryId) => {
+  const delivery = await Delivery.findById(deliveryId);
+
+  if (!delivery) {
+    throw new Error("Delivery not found");
+  }
+
+  if (delivery.status !== "CREATED") {
+    throw new Error("Only deliveries with status CREATED can be deleted");
+  }
+
+  await Delivery.findByIdAndDelete(deliveryId);
+
+  return { message: "Delivery deleted successfully" };
 };

@@ -3,47 +3,111 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   sendDroneToCharging,
   sendDroneToMaintenance,
-  setDroneAvailable
+  setDroneAvailable,
+  assignDroneToStation 
 } from "../../../api/drone-function.js";
-import { checkStationCapacity } from "../../../api/baseStation-function.js";
+import {getStationsWithCapacity} from "../../../api/baseStation-function.js"
 import { Zap, Settings, Check } from "lucide-react";
+import { showSuccess, showError, showConfirm } from "../../../utils/popup.js";
 import "./DroneTable.css";
 
 const ManageDroneModal = ({ drone, onClose }) => {
   const queryClient = useQueryClient();
-  const [selectedStation, setSelectedStation] = useState(drone.station?._id || "");
+ const [selectedStation, setSelectedStation] = useState(drone.baseStationId?._id || "");
   const [status, setStatus] = useState(drone.status);
 
   const { data: stations = [] } = useQuery({
-    queryKey: ["availableStations"],
-    queryFn: checkStationCapacity
-  });
+  queryKey: ["stationsWithCapacity"],
+  queryFn: getStationsWithCapacity,
+});
+
+
+console.log(stations);
 
   const chargeMutation = useMutation({
-    mutationFn: sendDroneToCharging,
-    onSuccess: () => queryClient.invalidateQueries(["drones"])
-  });
+  mutationFn: sendDroneToCharging,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["drones"] });
+    showSuccess("Drone sent to charging successfully");
+  },
+  onError: (err) => {
+    showError(err.message);
+  }
+});
 
-  const maintenanceMutation = useMutation({
-    mutationFn: sendDroneToMaintenance,
-    onSuccess: () => queryClient.invalidateQueries(["drones"])
-  });
+const maintenanceMutation = useMutation({
+  mutationFn: sendDroneToMaintenance,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["drones"] });
+    showSuccess("Drone sent to maintenance");
+  },
+  onError: (err) => {
+    showError(err.message);
+  }
+});
 
-  const availableMutation = useMutation({
-    mutationFn: setDroneAvailable,
-    onSuccess: () => queryClient.invalidateQueries(["drones"])
-  });
+const availableMutation = useMutation({
+  mutationFn: setDroneAvailable,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["drones"] });
+    showSuccess("Drone is now available");
+  },
+  onError: (err) => {
+    showError(err.message);
+  }
+});
 
-  const handleUpdate = async () => {
-    if (status === "charging") {
-      await chargeMutation.mutateAsync(drone._id);
-    } else if (status === "maintenance") {
-      await maintenanceMutation.mutateAsync(drone._id);
-    } else if (status === "available") {
-      await availableMutation.mutateAsync(drone._id);
+const assignStationMutation = useMutation({
+  mutationFn: ({ droneId, stationId }) =>
+    assignDroneToStation(droneId, stationId),
+
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["drones"] });
+    showSuccess("Drone assigned to station successfully");
+  },
+
+  onError: (err) => {
+    showError(err.message);
+  }
+});
+
+ const handleUpdate = async () => {
+  try {
+
+    if (
+      selectedStation &&
+      selectedStation !== drone.baseStationId?._id
+    ) {
+      await assignStationMutation.mutateAsync({
+        droneId: drone._id,
+        stationId: selectedStation
+      });
     }
+
+    if (status !== drone.status) {
+
+      if (status === "charging") {
+        await chargeMutation.mutateAsync(drone._id);
+      }
+
+      else if (status === "InMaintenance") {
+        await maintenanceMutation.mutateAsync(drone._id);
+      }
+
+      else if (status === "available") {
+        await availableMutation.mutateAsync(drone._id);
+      }
+
+    }
+
+    queryClient.invalidateQueries({ queryKey: ["drones"] });
+
     onClose();
-  };
+
+  } catch (error) {
+     showError(error.message)
+  }
+};
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -70,8 +134,8 @@ const ManageDroneModal = ({ drone, onClose }) => {
             <Zap size={16} /> Charging
           </button>
           <button
-            className={`status-btn ${status === "maintenance" ? "active" : ""}`}
-            onClick={() => setStatus("maintenance")}
+            className={`status-btn ${status === "InMaintenance" ? "active" : ""}`}
+            onClick={() => setStatus("InMaintenance")}
           >
             <Settings size={16} /> Maintenance
           </button>

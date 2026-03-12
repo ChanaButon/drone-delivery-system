@@ -1,5 +1,18 @@
 import mongoose from "mongoose";
 
+const locationSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ["Point"],
+    default: "Point"
+  },
+  coordinates: {
+    type: [Number],
+    required: true
+  },
+  address: String
+});
+
 const baseStationSchema = new mongoose.Schema(
   {
     name: {
@@ -7,14 +20,16 @@ const baseStationSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
-    location: {
-      lat: { type: Number, required: true },
-      lng: { type: Number, required: true }
-    },
+    location: locationSchema,
     capacity: {
       type: Number,
       required: true,
       min: 1
+    },
+    status: {
+      type: String,
+      enum: ["active", "maintenance", "offline"],
+      default: "active"
     }
   },
   { timestamps: true }

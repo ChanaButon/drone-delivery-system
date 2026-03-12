@@ -1,54 +1,64 @@
-.admin-card{
-  background-color: rgba(255,255,255,0.9);
-  backdrop-filter: blur(8px);
-  border-radius: 20px;
+.admin-card {
+  background: white;
+  border-radius: 14px;
   padding: 24px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  max-height: 170vh;
-  overflow-y: auto;
-
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .drone-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.drone-table th,
+.drone-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .drone-table th {
-  text-align: left;
-  font-size: 13px;
-  color: #64748b;
+  background: #f8fafc;
   font-weight: 600;
-  padding-bottom: 14px;
-}
-
-.drone-table td {
-  padding: 16px 8px;
-  border-bottom: 1px solid #f1f5f9;
-  vertical-align: middle;
 }
 
 .drone-table tr:hover {
-  background: #f8fafc;
+  background: #f9fafb;
 }
-
 .status-badge {
-  padding: 6px 12px;
-  border-radius: 999px;
+  padding: 4px 10px;
+  border-radius: 8px;
   font-size: 12px;
   font-weight: 600;
 }
 
-.status-available { background: #dcfce7; color: #15803d; }
-.status-charging { background: #dbeafe; color: #1d4ed8; }
-.status-maintenance { background: #fef3c7; color: #92400e; }
+.status-available {
+  background: #e8f7ee;
+  color: #1e9e55;
+}
+
+.status-charging {
+  background: #e6f4ff;
+  color: #2563eb;
+}
+
+.status-InMaintenance {
+  background: #fff4e5;
+  color: #e89c1c;
+}
+
+.status-delivering {
+  background: #ede9fe;
+  color: #6d28d9;
+}
 
 .battery-badge {
   font-weight: 600;
@@ -148,7 +158,20 @@
   background-color: #f1f5f9;
   color: #1e293b;
 }
+.battery-high {
+  color: #16a34a;
+  font-weight: 600;
+}
 
+.battery-medium {
+  color: #ea580c;
+  font-weight: 600;
+}
+
+.battery-low {
+  color: #dc2626;
+  font-weight: 700;
+}
 /* סטטוס כפתורים */
 .status-buttons {
   display: flex;
@@ -179,4 +202,42 @@
 
 .status-btn:hover {
   background: #e0e7ff;
+}
+
+/*battery */
+.battery {
+  display: flex;
+  align-items: center;
+}
+
+.battery-body {
+  width: 50px;
+  height: 20px;
+  border: 1px solid #1f2937;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+.battery-level {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.4s ease;
+}
+
+.battery-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+}
+
+.battery-cap {
+  width: 6px;
+  height: 12px;
+  background: #1f2937;
+  margin-left: 2px;
+  border-radius: 2px;
 }
