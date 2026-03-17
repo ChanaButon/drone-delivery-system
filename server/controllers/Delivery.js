@@ -73,13 +73,22 @@ export const getDeliveriesByUser = async (req, res) => {
 };
 
 export const assignDroneToDelivery = async (req, res) => {
+
   try {
-    const delivery = await assignDroneService(req.params.id, req.body.droneId);
-    if (!delivery) return res.status(404).json({ message: "Delivery not found" });
+
+    const delivery = await assignDroneService(req.params.id);
+
+    if (!delivery)
+      return res.status(404).json({ message: "No available drone" });
+
     res.json(delivery);
+
   } catch (error) {
+
     res.status(400).json({ message: error.message });
+
   }
+
 };
 
 export const updateDeliveryStatus = async (req, res) => {

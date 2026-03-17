@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCurrentUser } from "../../../api/user-function";
+import NotificationBell from "../NotificationUser/Notification"
 import "./DashboardHeader.css";
 
 const DashboardHeader = () => {
@@ -26,9 +27,10 @@ const DashboardHeader = () => {
         <p>Welcome back, {firstName} 👋</p>
       </div>
 
-      <div className="user-box">
-        <div className="avatar">{initials}</div>
-      </div>
+     <div className="user-box">
+      <NotificationBell />
+     <div className="avatar">{initials}</div>
+</div>
     </header>
   );
 };

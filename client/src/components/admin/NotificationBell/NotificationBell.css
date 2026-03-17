@@ -1,0 +1,62 @@
+.notification-container{
+  position:relative;
+}
+
+.bell-wrapper{
+  position:relative;
+  cursor:pointer;
+}
+
+.notification-dot{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  background:red;
+  color:white;
+  font-size:12px;
+  border-radius:50%;
+  padding:2px 6px;
+}
+
+.notification-panel{
+  position:absolute;
+  right:0;
+  top:40px;
+  width:340px;
+  background:white;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  padding:12px;
+  z-index:100;
+}
+
+.notification-filter{
+  margin-bottom:10px;
+}
+
+.notification-filter select{
+  width:100%;
+  padding:6px;
+}
+
+.notification-list{
+  max-height:300px;
+  overflow-y:auto;
+}
+
+.log-row{
+  padding:10px;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+
+.log-row.new{
+  background:#ffeaea;
+  color:#c40000;
+  font-weight:600;
+}
+
+.time{
+  font-size:11px;
+  color:#888;
+}

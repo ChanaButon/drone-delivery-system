@@ -5,9 +5,10 @@ import "./PackageTable.css";
 
 const PackageTable = () => {
   const { data: deliveries = [], isLoading, isError } = useQuery({
-    queryKey: ["deliveries"],
-    queryFn: getAllDeliveries
-  });
+  queryKey: ["deliveries"],
+  queryFn: getAllDeliveries,
+  refetchInterval: 3000
+});
 
   const getStatusClass = (status) => {
     switch (status) {

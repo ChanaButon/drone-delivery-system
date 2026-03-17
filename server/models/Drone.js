@@ -45,7 +45,12 @@ const droneSchema = new mongoose.Schema({
       const today = new Date();
       return new Date(today.getFullYear(), today.getMonth(), today.getDate());
     }
-  }
+  },
+  batteryConsumption: {
+  type: Number,
+  default: 2
+}
+
 });
 
 export const Drone = mongoose.model("Drone", droneSchema);

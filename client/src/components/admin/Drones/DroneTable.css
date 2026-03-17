@@ -205,39 +205,73 @@
 }
 
 /*battery */
-.battery {
+.battery-bars {
   display: flex;
   align-items: center;
 }
 
-.battery-body {
+.battery-bars-body {
+  display: flex;
+  position: relative;
   width: 50px;
-  height: 20px;
+  height: 18px;
   border: 1px solid #1f2937;
   border-radius: 6px;
-  position: relative;
   overflow: hidden;
   background: #f1f5f9;
 }
 
-.battery-level {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width 0.4s ease;
+.battery-bars-body .bar {
+  flex: 1;
+  margin: 1px;
+  background: #e5e7eb;
+  transition: background 0.3s;
 }
 
-.battery-text {
-  font-size: 11px;
-  font-weight: 700;
-  color: white;
+.battery-bars-body .bar.filled {
+  background: #16a34a;
 }
 
-.battery-cap {
+.battery-bars-body .bar.charging {
+  animation: chargingAnimation 1s infinite alternate;
+}
+
+@keyframes chargingAnimation {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.battery-bars-cap {
   width: 6px;
   height: 12px;
   background: #1f2937;
   margin-left: 2px;
   border-radius: 2px;
+}
+
+.battery-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #1f2937;
+  pointer-events: none;
+}
+
+.map-btn {
+  background: #0ea5e9;
+  color: white;
+ 
+}
+
+.map-btn:hover {
+  background: #0284c7;
+}
+
+.drone-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }

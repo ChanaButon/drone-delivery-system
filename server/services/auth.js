@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
+import { createNotification } from "../services/Notification.js";
 
 export const registerService = async (data) => {
   const { name, email,phone , password } = data;
@@ -119,5 +120,9 @@ export const changePasswordService = async (userId, oldPassword, newPassword) =>
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   user.password = hashedPassword;
   await user.save();
+  await createNotification({
+  userId: user._id,
+  message: "Your password was changed successfully 🔒"
+});
   return true;
 };

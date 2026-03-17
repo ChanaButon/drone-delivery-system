@@ -15,6 +15,7 @@ export const createDrone = async (data) => {
 
   return Drone.create({
     model: data.model,
+    batteryConsumption:data.batteryConsumption,
     batteryLevel: 100,
     status: "available",
     createdDate: new Date()
@@ -167,8 +168,7 @@ export const setAvailable = async (id) => {
 };
 
 
-export const getAvailableDrones = () =>
-  Drone.find({
-    status: "available",
-    batteryLevel: { $gte: 30 }
-  });
+
+
+
+  

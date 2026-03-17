@@ -1,0 +1,56 @@
+.notification-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.notification-container > div:first-child {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.notification-container span {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.panel {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 280px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.panel > div {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.panel > div:last-child {
+  border-bottom: none;
+}
+
+.panel div div:first-child {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.panel div div:last-child {
+  font-size: 12px;
+  color: #888;
+}

@@ -2,7 +2,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+}
+
+.user-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification-bell {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .dashboard-header h1 {

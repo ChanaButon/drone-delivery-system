@@ -105,44 +105,6 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-export const findNearestBaseStation = async (location) => {
-  const stations = await BaseStation.find({ status: "active" });
-
-  if (!stations.length) {
-    throw new Error("No base stations available");
-  }
-
-  let nearest = null;
-  let minDistance = Infinity;
-
-  for (const station of stations) {
-    const distance = calculateDistance(
-      location.lat,
-      location.lng,
-      station.location.lat,
-      station.location.lng
-    );
-
-    const dronesCount = await Drone.countDocuments({
-      baseStationId: station._id
-    });
-
-    if (
-      distance < minDistance &&
-      dronesCount < station.capacity &&
-      distance <= station.serviceRadius
-    ) {
-      minDistance = distance;
-      nearest = station;
-    }
-  }
-
-  if (!nearest) {
-    throw new Error("No station with free capacity");
-  }
-
-  return nearest;
-};
 
 export const getStationsWithFreeCapacity = async () => {
   const stations = await BaseStation.find();

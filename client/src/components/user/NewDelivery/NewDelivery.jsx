@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -9,11 +9,9 @@ import ScaleIcon from "@mui/icons-material/Scale";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import NotesIcon from "@mui/icons-material/Notes";
 
-import { createDelivery} from "../../../api/delivery-function"; 
-import {
-  findUsersByEmail,
-  getUserIdByEmail
-} from "../../../api/user-function"; 
+import { createDelivery } from "../../../api/delivery-function"; 
+import { findUsersByEmail, getUserIdByEmail } from "../../../api/user-function"; 
+import { showSuccess, showError } from "../../../utils/popup.js";
 
 import "./NewDelivery.css";
 
@@ -54,13 +52,13 @@ const NewDelivery = () => {
     setShowDropdown(false);
   };
 
-   const mutation = useMutation({
+  const mutation = useMutation({
     mutationFn: createDelivery,
     onSuccess: () => {
-      alert("Delivery created successfully!");
+      showSuccess("Delivery created successfully!");
     },
     onError: (err) => {
-      alert("Failed to create delivery: " + err.message);
+      showError("Failed to create delivery: " + err.message);
     }
   });
 

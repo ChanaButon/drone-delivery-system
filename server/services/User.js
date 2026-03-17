@@ -1,4 +1,5 @@
 import { User } from "../models/User.js";
+import { createNotification } from "../services/Notification.js";
 
 
 export const getAllUsers = async () => {
@@ -24,6 +25,11 @@ export const updateUserAddress = async (userId, address) => {
 
   user.address = address; 
   await user.save();
+  await createNotification({
+    userId: user._id,
+    message: "Your address has been updated 📍"
+  });
+
 
   return user;
 };
