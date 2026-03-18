@@ -1,12 +1,17 @@
 import { Notification } from "../models/Notification.js";
+import { io } from "../main.js";
 
 export const createNotification = async ({ userId, deliveryId, message, type }) => {
-  return await Notification.create({
+  const notification = await Notification.create({
     userId,
     deliveryId,
     message,
     type
   });
+
+  io.to(userId.toString()).emit("newNotification", notification);
+
+  return notification;
 };
 
 export const getUserNotifications = async (userId) => {

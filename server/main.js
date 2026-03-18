@@ -17,14 +17,12 @@ import { startDroneMovementSimulator } from "./simulators/droneMovementSimulator
 import notificationRoutes from "./routers/Notification.js";
 import { Server } from "socket.io";
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 dotenv.config();
 const port = process.env.PORT || 3000;
 const app = express();
-
 
 app.use(helmet());
 app.use(cookieParser());
@@ -39,10 +37,9 @@ app.use(express.static(join(__dirname, "client/dist")));
 
 await connectDB();
 startDroneMovementSimulator();
-startDroneSimulator()
+startDroneSimulator();
 
 app.use("/api/base-stations", baseStationRoutes);
-
 app.use("/api/drones", droneRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/deliveries", deliveryRoutes);
@@ -53,10 +50,30 @@ app.use("/api", notificationRoutes);
 app.get("/", (req, res) => {
   res.send("Server is running ");
 });
+
 app.get(/.*/, (req, res) => {
   res.sendFile(join(__dirname, "client/dist", "index.html"));
 });
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
+});
+
+export const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    credentials: true
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("register", (userId) => {
+    socket.join(userId);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
 });

@@ -116,9 +116,7 @@ const handleSave = async () => {
   return (
     <div className="delivery-overlay" onClick={handleOverlayClick}>
       <div className="delivery-card">
-        <button className="close-btn" onClick={onClose}>
-          <CloseIcon />
-        </button>
+      
 
         <div className="delivery-header">
           <h2>Delivery #{delivery._id.slice(-6)}</h2>

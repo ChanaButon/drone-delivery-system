@@ -112,3 +112,15 @@
 .delete-btn:hover {
   background: #fee2e2;
 }
+
+.filter-select {
+  margin-left: 10px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.status-failed {
+  background: #fee2e2;
+  color: #b91c1c;
+}

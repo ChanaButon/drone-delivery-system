@@ -1,6 +1,5 @@
 import * as userService from "../services/User.js";
 
-import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
 
 
 export const getAll = async (req, res) => {
